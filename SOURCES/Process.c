@@ -56,6 +56,13 @@ void SimulateUir(void){
 	
 	P.Biom.Num=2;
 	
+	P.Clock.Num=991;
+
+	P.Spc.Gain=3;
+
+	P.Ref.First=0;
+	P.Ref.Last=80;
+	
 	P.Bkg[0][0].First=2400;
 	P.Bkg[0][1].First=2400;
 	P.Bkg[1][0].First=2400;
@@ -74,17 +81,10 @@ void SimulateUir(void){
 	P.Gate[1][0].Last=2000;
 	P.Gate[1][1].Last=2000;
 
-	P.Clock.Num=991;
-	
-	P.Ref.First=0;
-	P.Ref.Last=80;
-	
 	P.Eps[0][0]=6.770E-04;  // cm-1/uM
 	P.Eps[0][1]=2.243E-03;  // cm-1/uM
 	P.Eps[1][0]=6.436E-03;  // cm-1/uM
 	P.Eps[1][1]=1.596E-03;  // cm-1/uM
-	
-	P.Spc.Gain=3;
  	}
 
 // Complete P-Structure
@@ -351,7 +351,7 @@ void UpdateTrace(void){
 	
 // main kernel
 void DoProcess(void){
-	SimulateUir();
+	//SimulateUir();
 	CompleteParm();
 	InitMem();
 	InitFile();

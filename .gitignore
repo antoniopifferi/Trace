@@ -8,3 +8,7 @@ cvibuild\.Trace/
 *.zip
 
 *.DAT
+
+*.obj
+
+SOURCES/msvc/

@@ -25,23 +25,45 @@
 #define  DISPLAY_OSCILL_ZOOM_LAST         10      /* control type: numeric, callback function: Setting */
 #define  DISPLAY_ZOOM                     11      /* control type: textMsg, callback function: (none) */
 
-#define  PARM                             2       /* callback function: ClosePanel */
-#define  PARM_LOOP_HOME_1                 2       /* control type: numeric, callback function: Setting */
-#define  PARM_T_FIBER                     3       /* control type: table, callback function: Setting */
-#define  PARM_LOOP_HOME_2                 4       /* control type: numeric, callback function: Setting */
-#define  PARM_LOOP_HOME_3                 5       /* control type: numeric, callback function: Setting */
-#define  PARM_LOOP_HOME_4                 6       /* control type: numeric, callback function: Setting */
-#define  PARM_LOOP_HOME_5                 7       /* control type: numeric, callback function: Setting */
-#define  PARM_POWER_STEP                  8       /* control type: ring, callback function: Setting */
-#define  PARM_TEXTMSG_5                   9       /* control type: textMsg, callback function: (none) */
-#define  PARM_TEXTMSG_4                   10      /* control type: textMsg, callback function: (none) */
-#define  PARM_TEXTMSG_3                   11      /* control type: textMsg, callback function: (none) */
-#define  PARM_TEXTMSG_2                   12      /* control type: textMsg, callback function: (none) */
-#define  PARM_TITLE                       13      /* control type: textMsg, callback function: (none) */
-#define  PARM_LOOP_TITLE                  14      /* control type: textMsg, callback function: (none) */
-#define  PARM_TEXTMSG_1                   15      /* control type: textMsg, callback function: (none) */
+#define  P                                2       /* callback function: ClosePanel */
+#define  P_BKG_0_0_LAST                   2       /* control type: numeric, callback function: Setting */
+#define  P_BKG_0_1_LAST                   3       /* control type: numeric, callback function: Setting */
+#define  P_BKG_1_0_LAST                   4       /* control type: numeric, callback function: Setting */
+#define  P_BKG_1_1_LAST                   5       /* control type: numeric, callback function: Setting */
+#define  P_BKG_0_0_FIRST                  6       /* control type: numeric, callback function: Setting */
+#define  P_BKG_0_1_FIRST                  7       /* control type: numeric, callback function: Setting */
+#define  P_BKG_1_0_FIRST                  8       /* control type: numeric, callback function: Setting */
+#define  P_BKG_1_1_FIRST                  9       /* control type: numeric, callback function: Setting */
+#define  P_REF_LAST                       10      /* control type: numeric, callback function: Setting */
+#define  P_GATE_0_0_LAST                  11      /* control type: numeric, callback function: Setting */
+#define  P_GATE_0_1_LAST                  12      /* control type: numeric, callback function: Setting */
+#define  P_GATE_1_0_LAST                  13      /* control type: numeric, callback function: Setting */
+#define  P_GATE_1_1_LAST                  14      /* control type: numeric, callback function: Setting */
+#define  P_WAIT_DISPLAY                   15      /* control type: numeric, callback function: Setting */
+#define  P_WAIT_FILE                      16      /* control type: numeric, callback function: Setting */
+#define  P_SPC_GAIN                       17      /* control type: numeric, callback function: Setting */
+#define  P_CHANN_NUM                      18      /* control type: numeric, callback function: Setting */
+#define  P_DET_LAMBDA                     19      /* control type: numeric, callback function: Setting */
+#define  P_DET_NUM                        20      /* control type: numeric, callback function: Setting */
+#define  P_REF_FIRST                      21      /* control type: numeric, callback function: Setting */
+#define  P_BIOM_NUM                       22      /* control type: numeric, callback function: Setting */
+#define  P_GATE_0_0_FIRST                 23      /* control type: numeric, callback function: Setting */
+#define  P_GATE_0_1_FIRST                 24      /* control type: numeric, callback function: Setting */
+#define  P_GATE_1_0_FIRST                 25      /* control type: numeric, callback function: Setting */
+#define  P_GATE_1_1_FIRST                 26      /* control type: numeric, callback function: Setting */
+#define  P_BIOM_TYPE                      27      /* control type: ring, callback function: Setting */
+#define  P_TEXTMSG_4                      28      /* control type: textMsg, callback function: (none) */
+#define  P_TEXTMSG_3                      29      /* control type: textMsg, callback function: (none) */
+#define  P_TEXTMSG_2                      30      /* control type: textMsg, callback function: (none) */
+#define  P_TEXTMSG_6                      31      /* control type: textMsg, callback function: (none) */
+#define  P_TEXTMSG_5                      32      /* control type: textMsg, callback function: (none) */
+#define  P_TEXTMSG_1                      33      /* control type: textMsg, callback function: (none) */
+#define  P_FILE_DIR                       34      /* control type: string, callback function: Setting */
+#define  P_FILE_EXT                       35      /* control type: string, callback function: Setting */
+#define  P_FILE_NAME                      36      /* control type: string, callback function: Setting */
+#define  P_FILE_TITLE                     37      /* control type: textMsg, callback function: (none) */
 
-#define  TRS                              3       /* callback function: ClosePanel */
+#define  TRACE                            3       /* callback function: ClosePanel */
 
 
      /* Control Arrays: */

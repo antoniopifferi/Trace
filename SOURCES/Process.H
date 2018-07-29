@@ -28,13 +28,12 @@
 #define MAX_PLOT	16
 
 /* BIOM CONSTANTS */
-#define BIOM_CONTRAST	0
-#define BIOM_DMUA		1
-#define BIOM_HBHBO2		2
 #define BIOM_PATHLEN	200 // mm = vt = c/n*1ns
+#define BIOM_CONTRAST	0	// display contrast
+#define BIOM_DMUA		1	// display DeltaMua
+#define BIOM_HBHBO2		2	// display Hb HbO2
 
 /* PROCESS CONSTANTS */
-#define DELAY_READ	0.01 // wait before further check in the file (s)
 #define MAX_BIOM 	2 // maximum number of biomarkers (different from P.Biom.Num which is the actual number)
 #define MAX_LAMBDA	2 // maximum number of wavelengths (different from P.Lambda.Num which is the actual number)
 #define MAX_DET		2 // maximum number of detectors/boards (different from P.Det.Num which is the actual number)
@@ -54,7 +53,7 @@
 
 
 /* TABLE CONSTANTS */  
-#define MAX_TABLE		1170
+#define MAX_TABLE		(3+2+6+3+8+8)
 #define STRLEN_TABLE	20
 #define TCHAR			0
 #define TINT			1
@@ -69,17 +68,10 @@
 
 /* FILE CONSTANTS AND ENVIRONMENT SETTINGS */  
 #define EXTASCII      ".TXT"
-#define FILESET		"SET\\TRS.TRS"
+#define FILESET		"SET\\TRACE.TRC"
 #define DIRPROG		""
 #define DIRSETTINGS   "SET"
-#define DIR_INI      "INI"
-#define EXTSETTINGS   "*.TRS" 
-#define EXTFILEPOS	  ".POS"
-#define DIRFILEPOS	  "POS"
-#define EXTFILETRIM	  ".TRM"
-#define DIRFILETRIM	  "TRM"
-#define EXTFILEBREAK  ".BRE"
-#define DIRFILEBREAK  "BREAK"
+#define EXTSETTINGS   "*.TRC" 
 
 /* USER INTERFACE CONSTANTS */
 #define PATH_UIR	".\\Sources\\TRACE.UIR"
@@ -128,15 +120,6 @@ struct BiomS{
 	int Num;
 	int Type;
 	};
-
-/* Note Per Lorenzo
-campo SubHeader
-campo size Header
-campo size SubHeader
-int->long
-VER_MAMM_HEADER (qualenumero?)
-togliere commenti su INIT_SPC (per me)
-*/
 
 #pragma pack(push,1)
 T_HEAD{
@@ -261,9 +244,11 @@ struct ParmS P;
 struct DataS D;
 struct TableS T;
 
-int hTrs;
+int hTrace;
 int hParm;
 int hDisplay;
 int hPlot[MAX_PLOT];
 int hPanel[MAX_PANEL];
 
+/* #####################   FUNCTIONS   ########################### */
+void CompleteParm(void);
