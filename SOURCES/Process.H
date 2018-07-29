@@ -53,7 +53,7 @@
 
 
 /* TABLE CONSTANTS */  
-#define MAX_TABLE		(3+2+6+3+8+8)
+#define MAX_TABLE		(8+8+2+3+6+3)
 #define STRLEN_TABLE	20
 #define TCHAR			0
 #define TINT			1
@@ -252,3 +252,5 @@ int hPanel[MAX_PANEL];
 
 /* #####################   FUNCTIONS   ########################### */
 void CompleteParm(void);
+void UpdatePanel(void);
+void ReadAll(void);

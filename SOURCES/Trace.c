@@ -9,6 +9,7 @@
 #pragma warning(disable : 4996) // Disable warnings about some functions in VS 2005
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
+#include <formatio.h>
 #include <utility.h>
 #include <ansi_c.h>
 #include <cvirte.h>		/* Needed if linking in external compiler; harmless otherwise */
@@ -36,20 +37,18 @@ void DoProcess(void);
 
 /* MAIN */
 
-int main (int argc, char *argv[])
-{   
+int main (int argc, char *argv[]){   
 	if (InitCVIRTE (0, argv, 0) == 0)	/* Needed if linking in external compiler; harmless otherwise */
 		return -1;	/* out of memory */
 	if ((hTrace = LoadPanel (0, PATH_UIR, TRACE)) < 0) return -1;
-	if ((hParm = LoadPanel (hTrs, PATH_UIR, P)) < 0) return -1;
-	if ((hDisplay = LoadPanel (hTrs, PATH_UIR, DISPLAY)) < 0) return -1;
+	if ((hParm = LoadPanel (hTrace, PATH_UIR, PARM)) < 0) return -1;
+	if ((hDisplay = LoadPanel (hTrace, PATH_UIR, DISPLAY)) < 0) return -1;
 	
-	//CreateTable();
+	CreateTable();
 	
-	DisplayPanel(hTrs);
+	DisplayPanel(hTrace);
 	DisplayPanel(hParm);
 	InitPanel();
-//	InitVariable();
 	SetSleepPolicy (VAL_SLEEP_MORE);
 	RunUserInterface ();
 	return 0;
@@ -64,39 +63,39 @@ void CVICALLBACK SaveSetting (int menuBar, int menuItem, void *callbackData, int
 	}
 
 void SaveSet(char *FilePath){
-//	int it;
-//	char vchar;
-//	int vint;
-//	double vdouble;
-//	char vstring[STRLEN];
-//	FILE *pfile;
-//	pfile = fopen (FilePath, "w");
-//	for(it=0;it<T.Num;it++){
-//		fprintf(pfile, "%d\t%d\t%s\t",T.Class[it],T.Type[it],T.Label[it]);
-//		switch (T.Type[it]) {
-//			case TCHAR:
-//				if(T.Class[it]==CE) GetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],&vchar);
-//				else GetTableCellVal (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),&vchar);
-//				fprintf(pfile,"%d\n",vchar);
-//				break;
-//			case TINT:
-//				if(T.Class[it]==CE) GetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],&vint);
-//				else GetTableCellVal (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),&vint);
-//				fprintf(pfile,"%d\n",vint);
-//				break;
-//			case TDOUBLE:
-//				if(T.Class[it]==CE) GetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],&vdouble);
-//				else GetTableCellVal (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),&vdouble);
-//				fprintf(pfile,"%lf\n",vdouble);
-//				break;
-//			case TSTRING:
-//				if(T.Class[it]==CE) GetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],vstring);
-//				else GetTableCellVal (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),vstring);
-//				fprintf(pfile,"%s\n",vstring);
-//				break;
-//			}
-//		}
-//	fclose(pfile);
+	int it;
+	char vchar;
+	int vint;
+	double vdouble;
+	char vstring[STRLEN];
+	FILE *pfile;
+	pfile = fopen (FilePath, "w");
+	for(it=0;it<T.Num;it++){
+		fprintf(pfile, "%d\t%d\t%s\t",T.Class[it],T.Type[it],T.Label[it]);
+		switch (T.Type[it]) {
+			case TCHAR:
+				if(T.Class[it]==CE) GetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],&vchar);
+				else GetTableCellVal (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),&vchar);
+				fprintf(pfile,"%d\n",vchar);
+				break;
+			case TINT:
+				if(T.Class[it]==CE) GetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],&vint);
+				else GetTableCellVal (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),&vint);
+				fprintf(pfile,"%d\n",vint);
+				break;
+			case TDOUBLE:
+				if(T.Class[it]==CE) GetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],&vdouble);
+				else GetTableCellVal (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),&vdouble);
+				fprintf(pfile,"%lf\n",vdouble);
+				break;
+			case TSTRING:
+				if(T.Class[it]==CE) GetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],vstring);
+				else GetTableCellVal (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),vstring);
+				fprintf(pfile,"%s\n",vstring);
+				break;
+			}
+		}
+	fclose(pfile);
 	}
 
 
@@ -107,53 +106,52 @@ void CVICALLBACK LoadSetting (int menuBar, int menuItem, void *callbackData,int 
 	if(status==VAL_NO_FILE_SELECTED) return;
 	LoadSet(fpath);
 	ReadAll();
-//	CompleteParmS();
+	CompleteParm();
 	UpdatePanel();
 	}
 	
 void LoadSet(char *FilePath){
-//	char line[STRLEN],label[STRLEN];
-//	int type,class,it;
-//	int vint;
-//	double vdouble;
-//	char vstring[STRLEN];
-//	FILE *pfile;
-//	pfile = fopen (FilePath, "r");
-//	if(pfile==NULL) return;
-//	while(fgets(line,STRLEN,pfile)!=NULL){
-//		sscanf (line, "%d\t%d\t%s\t",&class,&type,label);
-//		for(it=0;it<T.Num;it++){
-//			if(strcmp(label,T.Label[it])==0)
-//				switch (type) {
-//					case TCHAR:
-//					case TINT:
-//						sscanf(line,"%d%d%s%d",&class,&type,label,&vint);
-//						if(T.Class[it]==CE) SetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],vint);
-//						else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,vint);
-//						break;
-//					case TDOUBLE:
-//						sscanf(line,"%d%d%s%lf",&class,&type,label,&vdouble);
-//						if(T.Class[it]==CE) SetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],vdouble);
-//						else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,vdouble);
-//						break;
-//					case TSTRING:
-//						Scan(line,"%d%d%s%s",&class,&type,label,vstring);
-//						if(T.Class[it]==CE) SetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],vstring);
-//						else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,vstring);
-//						break;
-//					}
-//			}
-//		} 
-//	fclose(pfile);
+	char line[STRLEN],label[STRLEN];
+	int type,class,it;
+	int vint;
+	double vdouble;
+	char vstring[STRLEN];
+	FILE *pfile;
+	pfile = fopen (FilePath, "r");
+	if(pfile==NULL) return;
+	while(fgets(line,STRLEN,pfile)!=NULL){
+		sscanf (line, "%d\t%d\t%s\t",&class,&type,label);
+		for(it=0;it<T.Num;it++){
+			if(strcmp(label,T.Label[it])==0)
+				switch (type) {
+					case TCHAR:
+					case TINT:
+						sscanf(line,"%d%d%s%d",&class,&type,label,&vint);
+						if(T.Class[it]==CE) SetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],vint);
+						else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,vint);
+						break;
+					case TDOUBLE:
+						sscanf(line,"%d%d%s%lf",&class,&type,label,&vdouble);
+						if(T.Class[it]==CE) SetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],vdouble);
+						else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,vdouble);
+						break;
+					case TSTRING:
+						Scan(line,"%d%d%s%s",&class,&type,label,vstring);
+						if(T.Class[it]==CE) SetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],vstring);
+						else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,vstring);
+						break;
+					}
+			}
+		} 
+	fclose(pfile);
 	}
-//
+
 
 
 void CVICALLBACK Print(int menuBar, int menuItem, void *callbackData,
-		int panel)
-{
+		int panel){
 	PrintPanel (panel, "", 1, VAL_FULL_PANEL, 1);
-}
+	}
 
 
 void CVICALLBACK Quit (int menuBar, int menuItem, void *callbackData,int panel){  
@@ -170,96 +168,92 @@ void CVICALLBACK ShowPanel (int menuBar, int menuItem, void *callbackData, int p
 	}
 
 
-void CVICALLBACK Process(int menuBar, int menuItem, void *callbackData,int panel)
-{
+void CVICALLBACK Process(int menuBar, int menuItem, void *callbackData,int panel){
 	DoProcess();
-}
+	}
 
 
 void CVICALLBACK About (int menuBar, int menuItem, void *callbackData,
-		int panel)
-{
+		int panel){
 	MessagePopup ("ABOUT TRACE", MESSAGE_ABOUT); 
-}
+	}
 
 
 void InitPanel(void){
 	hPanel[PARM]=hParm;
 	hPanel[DISPLAY]=hDisplay;
-//	LoadSet(FILESET);
-//	ReadAll();
-//	CompleteParmS();
-//	UpdatePanel();
+	LoadSet(FILESET);
+	ReadAll();
+	CompleteParm();
+	UpdatePanel();
 	}
 	
 
 void ReadAll(void){
-//	int it;
-//	for(it=0;it<T.Num;it++)
-//		if(T.Class[it]==CE)
-//			GetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],T.Addr[it]);
-//		else
-//			GetTableCellVal(hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),T.Addr[it]);
+	int it;
+	for(it=0;it<T.Num;it++)
+		if(T.Class[it]==CE)
+			GetCtrlVal(hPanel[T.Panel[it]],T.Ctrl[it],T.Addr[it]);
+		else
+			GetTableCellVal(hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),T.Addr[it]);
 	}				
 
 int CVICALLBACK Setting (int panel, int control, int event,void *callbackData, int eventData1, int eventData2){
-//	int ip,it,rowT,colT,root;
-//	int panelID;
-//	int row=eventData1;
-//	int col=eventData2;
-//	if(event!=EVENT_COMMIT) return 0;
-//	for(ip=0;ip<MAX_PANEL;ip++) if(hPanel[ip]==panel) panelID=ip;
-//	for(it=0;it<T.Num;it++)
-//		if((T.Panel[it]==panelID)&&(T.Ctrl[it]==control)){
-//			if(T.Class[it]==CE)
-//				GetCtrlVal(panel,control,T.Addr[it]);
-//			else{
-//				root = FindPattern(T.Label[it],0,-1,"_",1,0);
-//				sscanf(T.Label[it]+root+1,"%d_%d",&rowT,&colT);
-//				if((row==rowT)&&(col==colT))
-//					GetTableCellVal(panel,control,MakePoint(col,row),T.Addr[it]);
-//				}
-//			}
-//	if(P.Info.Appl!=APPL_SPECTRA) CompleteParmS();
-//	if(P.Info.Appl!=APPL_SPECTRA) UpdatePanel();
+	int ip,it,rowT,colT,root;
+	int panelID;
+	int row=eventData1;
+	int col=eventData2;
+	if(event!=EVENT_COMMIT) return 0;
+	for(ip=0;ip<MAX_PANEL;ip++) if(hPanel[ip]==panel) panelID=ip;
+	for(it=0;it<T.Num;it++)
+		if((T.Panel[it]==panelID)&&(T.Ctrl[it]==control)){
+			if(T.Class[it]==CE)
+				GetCtrlVal(panel,control,T.Addr[it]);
+			else{
+				root = FindPattern(T.Label[it],0,-1,"_",1,0);
+				sscanf(T.Label[it]+root+1,"%d_%d",&rowT,&colT);
+				if((row==rowT)&&(col==colT))
+					GetTableCellVal(panel,control,MakePoint(col,row),T.Addr[it]);
+				}
+			}
 	return 0;
 	}
 
 
 void UpdatePanel(void){
-//	char strtime[STRLEN];
-//	int it;
-//	char *pchar;
-//	int *pint;
-//	double *pdouble;
-//	for(it=0;it<T.Num;it++)
-//		switch (T.Type[it]) {	   
-//			case TCHAR:
-//				pchar=T.Addr[it];
-//				if(T.Class[it]==CE) SetCtrlAttribute (hPanel[T.Panel[it]],T.Ctrl[it],ATTR_CTRL_VAL,*pchar);
-//				else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,*pchar);
-//				break;
-//			case TINT:
-//				pint=T.Addr[it];
-//				if(T.Class[it]==CE) SetCtrlAttribute (hPanel[T.Panel[it]],T.Ctrl[it],ATTR_CTRL_VAL,*pint);
-//				else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,*pint);
-//				break;
-//			case TDOUBLE:
-//				pdouble=T.Addr[it];
-//				if(T.Class[it]==CE) SetCtrlAttribute (hPanel[T.Panel[it]],T.Ctrl[it],ATTR_CTRL_VAL,*pdouble);
-//				else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,*pdouble);
-//				break;
-//			case TSTRING:
-//				if(T.Class[it]==CE) SetCtrlAttribute (hPanel[T.Panel[it]],T.Ctrl[it],ATTR_CTRL_VAL,T.Addr[it]);
-//				else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,T.Addr[it]);
-//				break;
-//			}
-//	ProcessDrawEvents ();
+	char strtime[STRLEN];
+	int it;
+	char *pchar;
+	int *pint;
+	double *pdouble;
+	for(it=0;it<T.Num;it++)
+		switch (T.Type[it]) {	   
+			case TCHAR:
+				pchar=T.Addr[it];
+				if(T.Class[it]==CE) SetCtrlAttribute (hPanel[T.Panel[it]],T.Ctrl[it],ATTR_CTRL_VAL,*pchar);
+				else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,*pchar);
+				break;
+			case TINT:
+				pint=T.Addr[it];
+				if(T.Class[it]==CE) SetCtrlAttribute (hPanel[T.Panel[it]],T.Ctrl[it],ATTR_CTRL_VAL,*pint);
+				else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,*pint);
+				break;
+			case TDOUBLE:
+				pdouble=T.Addr[it];
+				if(T.Class[it]==CE) SetCtrlAttribute (hPanel[T.Panel[it]],T.Ctrl[it],ATTR_CTRL_VAL,*pdouble);
+				else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,*pdouble);
+				break;
+			case TSTRING:
+				if(T.Class[it]==CE) SetCtrlAttribute (hPanel[T.Panel[it]],T.Ctrl[it],ATTR_CTRL_VAL,T.Addr[it]);
+				else SetTableCellAttribute (hPanel[T.Panel[it]],T.Ctrl[it],MakePoint(T.Col[it],T.Row[it]),ATTR_CTRL_VAL,T.Addr[it]);
+				break;
+			}
+	ProcessDrawEvents ();
 	}
 
 int CVICALLBACK ClosePanel (int panel, int event, void *callbackdata, int eventdata1, int eventdata2) {
 	if(event!=EVENT_CLOSE) return(0);
-    if(panel==hTrs) {SaveSet(FILESET);QuitUserInterface (0); return(0);}
+    if(panel==hTrace) {SaveSet(FILESET);QuitUserInterface (0); return(0);}
     HidePanel(panel);
     return(0);
     }
@@ -285,49 +279,48 @@ void CreateTable(void){
 
 	T.Num=0;
 
-	AddTab(CE,TSTRING,P,P_FILE_DIR,"FileDir",0,0,P.File.Dir);
-	AddTab(CE,TSTRING,P,P_FILE_EXT,"FileExt",0,0,P.File.Ext); 
-	AddTab(CE,TSTRING,P,P_FILE_NAME,"FileName",0,0,P.File.Name); 
+	// 8
+	AddTab(CE,TINT,PARM,PARM_GATE_0_0_FIRST,"Gate00First",0,0,&P.Gate[0][0].First);
+	AddTab(CE,TINT,PARM,PARM_GATE_0_1_FIRST,"Gate01First",0,0,&P.Gate[0][1].First);
+	AddTab(CE,TINT,PARM,PARM_GATE_1_0_FIRST,"Gate10First",0,0,&P.Gate[1][0].First);
+	AddTab(CE,TINT,PARM,PARM_GATE_1_1_FIRST,"Gate11First",0,0,&P.Gate[1][1].First);
+	AddTab(CE,TINT,PARM,PARM_GATE_0_0_LAST,"Gate00Last",0,0,&P.Gate[0][0].Last);
+	AddTab(CE,TINT,PARM,PARM_GATE_0_1_LAST,"Gate01Last",0,0,&P.Gate[0][1].Last);
+	AddTab(CE,TINT,PARM,PARM_GATE_1_0_LAST,"Gate10Last",0,0,&P.Gate[1][0].Last);
+	AddTab(CE,TINT,PARM,PARM_GATE_1_1_LAST,"Gate11Last",0,0,&P.Gate[1][1].Last);
+
+	// 8
+	AddTab(CE,TINT,PARM,PARM_BKG_0_0_FIRST,"Bkg00First",0,0,&P.Bkg[0][0].First);
+	AddTab(CE,TINT,PARM,PARM_BKG_0_1_FIRST,"Bkg01First",0,0,&P.Bkg[0][1].First);
+	AddTab(CE,TINT,PARM,PARM_BKG_1_0_FIRST,"Bkg10First",0,0,&P.Bkg[1][0].First);
+	AddTab(CE,TINT,PARM,PARM_BKG_1_1_FIRST,"Bkg11First",0,0,&P.Bkg[1][1].First);
+	AddTab(CE,TINT,PARM,PARM_BKG_0_0_LAST,"Bkg00Last",0,0,&P.Bkg[0][0].Last);
+	AddTab(CE,TINT,PARM,PARM_BKG_0_1_LAST,"Bkg01Last",0,0,&P.Bkg[0][1].Last);
+	AddTab(CE,TINT,PARM,PARM_BKG_1_0_LAST,"Bkg10Last",0,0,&P.Bkg[1][0].Last);
+	AddTab(CE,TINT,PARM,PARM_BKG_1_1_LAST,"Bkg11Last",0,0,&P.Bkg[1][1].Last);
+
+	//2
+	AddTab(CE,TDOUBLE,PARM,PARM_WAIT_FILE,"WaitFile",0,0,&P.Wait.File);
+	AddTab(CE,TDOUBLE,PARM,PARM_WAIT_DISPLAY,"WaitDisplay",0,0,&P.Wait.Display);
 	
-	AddTab(CE,TDOUBLE,P,P_WAIT_FILE,"WaitFile",0,0,&P.Wait.File);
-	AddTab(CE,TDOUBLE,P,P_WAIT_DISPLAY,"WaitDisplay",0,0,&P.Wait.Display);
+	// 3
+	AddTab(CE,TINT,PARM,PARM_CLOCK_NUM,"ClockNum",0,0,&P.Clock.Num);
+	AddTab(CE,TINT,PARM,PARM_REF_FIRST,"RefFirst",0,0,&P.Ref.First);
+	AddTab(CE,TINT,PARM,PARM_REF_LAST,"RefLast",0,0,&P.Ref.Last);
+
+	// 6
+	AddTab(CE,TINT,PARM,PARM_BIOM_TYPE,"BiomType",0,0,&P.Biom.Type);
+	AddTab(CE,TINT,PARM,PARM_BIOM_NUM,"BiomNum",0,0,&P.Biom.Num);
+	AddTab(CE,TINT,PARM,PARM_DET_NUM,"DetNum",0,0,&P.Det.Num);
+	AddTab(CE,TINT,PARM,PARM_LAMBDA_NUM,"LambdaNum",0,0,&P.Lambda.Num);
+	AddTab(CE,TINT,PARM,PARM_CHANN_NUM,"ChannNum",0,0,&P.Chann.Num);
+	AddTab(CE,TDOUBLE,PARM,PARM_SPC_GAIN,"SpcGain",0,0,&P.Spc.Gain);
+
+	// 3
+	AddTab(CE,TSTRING,PARM,PARM_FILE_DIR,"FileDir",0,0,P.File.Dir);
+	AddTab(CE,TSTRING,PARM,PARM_FILE_EXT,"FileExt",0,0,P.File.Ext); 
+	AddTab(CE,TSTRING,PARM,PARM_FILE_NAME,"FileName",0,0,P.File.Name); 
 	
-	AddTab(CE,TINT,P,P_CHANN_NUM,"ChannNum",0,0,&P.Chann.Num);
-
-	AddTab(CE,TINT,P,P_DET_NUM,"DetNum",0,0,&P.Det.Num);
-	
-	AddTab(CE,TINT,P,P_BIOM_NUM,"BiomNum",0,0,&P.Biom.Num);
-	AddTab(CE,TINT,P,P_BIOM_TYPE,"BiomType",0,0,&P.Biom.Type);
-	
-	AddTab(CE,TINT,P,P_CHANN_NUM,"ChannNum",0,0,&P.Chann.Num);
-
-	AddTab(CE,TINT,P,P_CLOCK_NUM,"ClockNum",0,0,&P.Clock.Num);
-
-	AddTab(CE,TDOUBLE,P,P_SPC_GAIN,"SpcGain",0,0,&P.Spc.Gain);
-
-	AddTab(CE,TINT,P,P_REF_FIRST,"RefFirst",0,0,&P.Ref.First);
-	AddTab(CE,TINT,P,P_REF_LAST,"RefLast",0,0,&P.Ref.Last);
-
-	AddTab(CE,TINT,P,P_GATE_0_0_FIRST,"Gate00First",0,0,&P.Gate[0][0].First);
-	AddTab(CE,TINT,P,P_GATE_0_1_FIRST,"Gate01First",0,0,&P.Gate[0][1].First);
-	AddTab(CE,TINT,P,P_GATE_1_0_FIRST,"Gate10First",0,0,&P.Gate[1][0].First);
-	AddTab(CE,TINT,P,P_GATE_1_1_FIRST,"Gate11First",0,0,&P.Gate[1][1].First);
-
-	AddTab(CE,TINT,P,P_GATE_0_0_LAST,"Gate00Last",0,0,&P.Gate[0][0].Last);
-	AddTab(CE,TINT,P,P_GATE_0_1_LAST,"Gate01Last",0,0,&P.Gate[0][1].Last);
-	AddTab(CE,TINT,P,P_GATE_1_0_LAST,"Gate10Last",0,0,&P.Gate[1][0].Last);
-	AddTab(CE,TINT,P,P_GATE_1_1_LAST,"Gate11Last",0,0,&P.Gate[1][1].Last);
-
-	AddTab(CE,TINT,P,P_BKG_0_0_FIRST,"Bkg00First",0,0,&P.Bkg[0][0].First);
-	AddTab(CE,TINT,P,P_BKG_0_1_FIRST,"Bkg01First",0,0,&P.Bkg[0][1].First);
-	AddTab(CE,TINT,P,P_BKG_1_0_FIRST,"Bkg10First",0,0,&P.Bkg[1][0].First);
-	AddTab(CE,TINT,P,P_BKG_1_1_FIRST,"Bkg11First",0,0,&P.Bkg[1][1].First);
-
-	AddTab(CE,TINT,P,P_BKG_0_0_LAST,"Bkg00Last",0,0,&P.Bkg[0][0].Last);
-	AddTab(CE,TINT,P,P_BKG_0_1_LAST,"Bkg01Last",0,0,&P.Bkg[0][1].Last);
-	AddTab(CE,TINT,P,P_BKG_1_0_LAST,"Bkg10Last",0,0,&P.Bkg[1][0].Last);
-	AddTab(CE,TINT,P,P_BKG_1_1_LAST,"Bkg11Last",0,0,&P.Bkg[1][1].Last);
-
 	for(ic=0;ic<T.Num;ic++) T.Dimmed[ic]=FALSE;
 	}
 

@@ -35,57 +35,57 @@ int CVICALLBACK GetCommand(int panel, int control, int event, void *callbackData
 	return 0;
 	}
 
-// Replace UIR
-void SimulateUir(void){
-	
-	P.Command.Abort=FALSE;
-	P.Command.Continue=TRUE;
-	
-	strcpy(P.File.Dir,"D:\\Beta\\Programs\\Trace\\Data");
-	strcpy(P.File.Name,"DENv0096");
-	strcpy(P.File.Ext,"DAT");
-	
-	P.Wait.File=0.1;
-	P.Wait.Display=0.2;
-	
-	P.Chann.Num=4096;
-	
-	P.Det.Num=2;
-	
-	P.Lambda.Num=2;
-	
-	P.Biom.Num=2;
-	
-	P.Clock.Num=991;
-
-	P.Spc.Gain=3;
-
-	P.Ref.First=0;
-	P.Ref.Last=80;
-	
-	P.Bkg[0][0].First=2400;
-	P.Bkg[0][1].First=2400;
-	P.Bkg[1][0].First=2400;
-	P.Bkg[1][1].First=2400;
-	P.Bkg[0][0].Last=2500;
-	P.Bkg[0][1].Last=2500;
-	P.Bkg[1][0].Last=2500;
-	P.Bkg[1][1].Last=2500;
-	
-	P.Gate[0][0].First=1000;
-	P.Gate[0][1].First=1000;
-	P.Gate[1][0].First=2000;
-	P.Gate[1][1].First=2000;
-	P.Gate[0][0].Last=1000;
-	P.Gate[0][1].Last=1000;
-	P.Gate[1][0].Last=2000;
-	P.Gate[1][1].Last=2000;
-
-	P.Eps[0][0]=6.770E-04;  // cm-1/uM
-	P.Eps[0][1]=2.243E-03;  // cm-1/uM
-	P.Eps[1][0]=6.436E-03;  // cm-1/uM
-	P.Eps[1][1]=1.596E-03;  // cm-1/uM
- 	}
+//// Replace UIR
+//void SimulateUir(void){
+//	
+//	P.Command.Abort=FALSE;
+//	P.Command.Continue=TRUE;
+//	
+//	strcpy(P.File.Dir,"D:\\Beta\\Programs\\Trace\\Data");
+//	strcpy(P.File.Name,"DENv0096");
+//	strcpy(P.File.Ext,"DAT");
+//	
+//	P.Wait.File=0.1;
+//	P.Wait.Display=0.2;
+//	
+//	P.Chann.Num=4096;
+//	
+//	P.Det.Num=2;
+//	
+//	P.Lambda.Num=2;
+//	
+//	P.Biom.Num=2;
+//	
+//	P.Clock.Num=991;
+//
+//	P.Spc.Gain=3;
+//
+//	P.Ref.First=0;
+//	P.Ref.Last=80;
+//	
+//	P.Bkg[0][0].First=2400;
+//	P.Bkg[0][1].First=2400;
+//	P.Bkg[1][0].First=2400;
+//	P.Bkg[1][1].First=2400;
+//	P.Bkg[0][0].Last=2500;
+//	P.Bkg[0][1].Last=2500;
+//	P.Bkg[1][0].Last=2500;
+//	P.Bkg[1][1].Last=2500;
+//	
+//	P.Gate[0][0].First=1000;
+//	P.Gate[0][1].First=1000;
+//	P.Gate[1][0].First=2000;
+//	P.Gate[1][1].First=2000;
+//	P.Gate[0][0].Last=1000;
+//	P.Gate[0][1].Last=1000;
+//	P.Gate[1][0].Last=2000;
+//	P.Gate[1][1].Last=2000;
+//
+//	P.Eps[0][0]=6.770E-04;  // cm-1/uM
+//	P.Eps[0][1]=2.243E-03;  // cm-1/uM
+//	P.Eps[1][0]=6.436E-03;  // cm-1/uM
+//	P.Eps[1][1]=1.596E-03;  // cm-1/uM
+// 	}
 
 // Complete P-Structure
 void CompleteParm(void){
@@ -230,24 +230,24 @@ void InitDisplay(void){
 
 /* KERNEL FUNCTIONS */
 
-// Wait for next Data and load it. Exit when Break pressed 
-void ReadFile(void){
-	int numchar=P.Lambda.Num*P.Det.Num*(sizeof(T_SUB)+P.Chann.Num*sizeof(T_DATA));
-	fread(D.BufChar,sizeof(char),numchar,P.File.File);
-	while(fread(D.BufChar,sizeof(char),numchar,P.File.File)<=0){
-		if(P.Command.Abort) return;
-		while(!P.Command.Continue);
-		Delay(DELAY_READ);
-		}
-	for(int il=0;il<P.Lambda.Num;il++)
-		for(int id=0;id<P.Det.Num;id++){
-			int jump=(id+il*P.Det.Num)*(sizeof(T_SUB)+P.Chann.Num*sizeof(T_DATA));
-			char* pChar=D.BufChar+jump;
-			T_DATA* pCurve=(short*) pChar;
-			for(int ic=0;ic<P.Chann.Num;ic++)
-				D.Curve[id][il][ic]=pCurve[0];
-			}
-	}
+//// Wait for next Data and load it. Exit when Break pressed 
+//void ReadFile(void){
+//	int numchar=P.Lambda.Num*P.Det.Num*(sizeof(T_SUB)+P.Chann.Num*sizeof(T_DATA));
+//	fread(D.BufChar,sizeof(char),numchar,P.File.File);
+//	while(fread(D.BufChar,sizeof(char),numchar,P.File.File)<=0){
+//		if(P.Command.Abort) return;
+//		while(!P.Command.Continue);
+//		Delay(DELAY_READ);
+//		}
+//	for(int il=0;il<P.Lambda.Num;il++)
+//		for(int id=0;id<P.Det.Num;id++){
+//			int jump=(id+il*P.Det.Num)*(sizeof(T_SUB)+P.Chann.Num*sizeof(T_DATA));
+//			char* pChar=D.BufChar+jump;
+//			T_DATA* pCurve=(short*) pChar;
+//			for(int ic=0;ic<P.Chann.Num;ic++)
+//				D.Curve[id][il][ic]=pCurve[0];
+//			}
+//	}
 
 // Wait for next Data and load it. Exit when Break pressed 
 void ReadFile(void){
@@ -270,7 +270,7 @@ void CalcGate(void){
 				bkg+=D.Curve[id][il][ic];
 			for(ic=P.Gate[id][il].First;ic<=P.Gate[id][il].Last;ic++)
 				gate+=D.Curve[id][il][ic];
-			//gate-=bkg;
+			gate-=bkg;
 			D.Gate[id][il]=gate;
 			}
 	}
@@ -352,7 +352,9 @@ void UpdateTrace(void){
 // main kernel
 void DoProcess(void){
 	//SimulateUir();
+	ReadAll();
 	CompleteParm();
+	UpdatePanel();
 	InitMem();
 	InitFile();
 	InitDisplay();
