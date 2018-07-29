@@ -1,0 +1,10 @@
+
+Data/
+
+cvibuild\.Trace/
+
+*.exe
+
+*.zip
+
+*.DAT
