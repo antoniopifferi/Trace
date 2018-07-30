@@ -40,7 +40,7 @@ FileSizeColumnWidth = 70
 Version = 1302
 Don't Update DistKit = True
 Platform Code = 4
-Build Configuration = "Release64"
+Build Configuration = "Debug"
 Warn User If Debugging Release = 1
 Batch Build Release = True
 Batch Build Debug = True
@@ -48,54 +48,52 @@ Batch Build Debug = True
 [File 0001]
 Path = "/d/Beta/Programs/Trace/SOURCES/Process.c"
 File Type = "CSource"
-Disk Date = 3615749774
+Disk Date = 3615789991
 In Projects = "1,"
 Window Top = 33
 Window Left = 10
 Window Z-Order = 1
-Source Window State = "1,37,88,37,0,0,0,0,0,146,0,0,0,0,0,35,328,0,337,31,349,683,1,0,"
-Breakpoint 0001 = "31,0,enabled,"
-Breakpoint 0002 = "184,0,enabled,"
+Source Window State = "1,164,165,164,0,0,0,0,0,146,0,0,0,0,0,35,147,0,164,0,349,683,1,0,"
 
 [File 0002]
 Path = "/d/Beta/Programs/Trace/SOURCES/Trace.c"
 File Type = "CSource"
-Disk Date = 3615748987
+Disk Date = 3615789302
 In Projects = "1,"
 Window Top = 64
 Window Left = 26
 Window Z-Order = 2
-Source Window State = "1,316,317,316,0,0,0,0,0,80,0,0,0,0,0,25,184,0,193,8,349,683,1,0,"
+Source Window State = "1,173,175,173,0,0,0,0,0,80,0,0,0,0,0,25,257,0,269,4,349,683,1,0,"
 
 [File 0003]
 Path = "/d/Beta/Programs/Trace/SOURCES/Trace.UIR"
 File Type = "User Interface Resource"
-Disk Date = 3615747713
+Disk Date = 3615788653
 In Projects = "1,"
 Window Top = 95
 Window Left = 42
 Window Height = 349
 Window Width = 683
-Window Z-Order = 4
+Window Z-Order = 3
 
 [File 0004]
 Path = "/d/Beta/Programs/Trace/SOURCES/Process.H"
 File Type = "Include"
-Disk Date = 3615749073
+Disk Date = 3615782957
 In Projects = "1,"
 Window Top = 31
-Window Z-Order = 3
-Source Window State = "1,56,57,56,0,0,0,0,0,70,0,39,0,0,0,28,39,0,56,0,400,600,1,0,"
+Window Z-Order = 5
+Source Window State = "1,108,108,108,8,16,16,0,0,70,0,39,0,0,0,28,105,0,111,5,400,600,1,0,"
 
 [File 0005]
 Path = "/d/Beta/Programs/Trace/SOURCES/Trace.h"
 File Type = "Include"
-Disk Date = 3615747713
-In Projects = ""
+Disk Date = 3615782894
+In Projects = "1,"
 Window Top = 95
 Window Left = 42
-Window Z-Order = 5
-Source Window State = "1,0,0,0,0,0,0,0,0,80,0,0,0,0,0,13,47,0,56,42,193,683,1,0,"
+Window Z-Order = 4
+Source Window State = "1,17,17,17,9,22,22,0,0,80,0,0,0,0,0,13,0,0,34,7,193,683,1,0,"
 
 [File 0006]
 Path = "/d/Beta/Programs/TRS/SOURCES/Measure.c"

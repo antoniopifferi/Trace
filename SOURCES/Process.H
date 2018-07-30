@@ -106,7 +106,7 @@ struct WaitS {
 
 struct CommandS{
 	int Abort;
-	int Continue;
+	int Pause;
 	int Failure;
 	char ReadUIR;
 	};

@@ -29,63 +29,16 @@
 int CVICALLBACK GetCommand(int panel, int control, int event, void *callbackData, int eventData1, int eventData2){
 	if(event!=EVENT_COMMIT) return 0;
 	switch (control){
-		case DISPLAY_CONTPAUSE:GetCtrlVal (hDisplay, control, &P.Command.Continue);break;
-		case DISPLAY_ABORT:P.Command.Abort=TRUE;break;
+		case DISPLAY_PAUSE:
+			GetCtrlVal (hDisplay, control, &P.Command.Pause);
+			break;
+		case DISPLAY_ABORT:
+			P.Command.Abort=TRUE;
+			break;
 		}
 	return 0;
 	}
 
-//// Replace UIR
-//void SimulateUir(void){
-//	
-//	P.Command.Abort=FALSE;
-//	P.Command.Continue=TRUE;
-//	
-//	strcpy(P.File.Dir,"D:\\Beta\\Programs\\Trace\\Data");
-//	strcpy(P.File.Name,"DENv0096");
-//	strcpy(P.File.Ext,"DAT");
-//	
-//	P.Wait.File=0.1;
-//	P.Wait.Display=0.2;
-//	
-//	P.Chann.Num=4096;
-//	
-//	P.Det.Num=2;
-//	
-//	P.Lambda.Num=2;
-//	
-//	P.Biom.Num=2;
-//	
-//	P.Clock.Num=991;
-//
-//	P.Spc.Gain=3;
-//
-//	P.Ref.First=0;
-//	P.Ref.Last=80;
-//	
-//	P.Bkg[0][0].First=2400;
-//	P.Bkg[0][1].First=2400;
-//	P.Bkg[1][0].First=2400;
-//	P.Bkg[1][1].First=2400;
-//	P.Bkg[0][0].Last=2500;
-//	P.Bkg[0][1].Last=2500;
-//	P.Bkg[1][0].Last=2500;
-//	P.Bkg[1][1].Last=2500;
-//	
-//	P.Gate[0][0].First=1000;
-//	P.Gate[0][1].First=1000;
-//	P.Gate[1][0].First=2000;
-//	P.Gate[1][1].First=2000;
-//	P.Gate[0][0].Last=1000;
-//	P.Gate[0][1].Last=1000;
-//	P.Gate[1][0].Last=2000;
-//	P.Gate[1][1].Last=2000;
-//
-//	P.Eps[0][0]=6.770E-04;  // cm-1/uM
-//	P.Eps[0][1]=2.243E-03;  // cm-1/uM
-//	P.Eps[1][0]=6.436E-03;  // cm-1/uM
-//	P.Eps[1][1]=1.596E-03;  // cm-1/uM
-// 	}
 
 // Complete P-Structure
 void CompleteParm(void){
@@ -178,18 +131,6 @@ void CloseMem(void){
 	}
 
 
-// Failure to load the whole data, wait a while
-void WaitFile(void){
-	int panel,control;
-	GetCtrlVal (hDisplay, DISPLAY_ABORT, &P.Command.Abort);
-	GetCtrlVal (hDisplay, DISPLAY_CONTPAUSE, &P.Command.Continue);
-	GetUserEvent (0, &panel, &control);
-	if(P.Command.Abort) return;
-	while(!P.Command.Continue);
-	Delay(P.Wait.File);
-	}	
-
-
 // Initialise File
 void InitFile(void){
 	P.Command.Failure=FALSE;
@@ -213,9 +154,6 @@ void CloseFile(void){
 // Initialise Display
 void InitDisplay(void){
 	int ic,ik;
-	for(ic=0;ic<P.Chann.Num;ic++) D.Chann[ic]=ic;
-	for(ic=0;ic<P.Chann.Num;ic++) D.Time[ic]=ic*P.Spc.Factor; // CORRECT FOR EXACT TIME BIN
-	for(ik=0;ik<P.Clock.Num;ik++) D.Clock[ik]=ik; // 
 	P.Color[0]=VAL_GREEN;
 	P.Color[1]=VAL_RED;
 	P.Color[2]=VAL_CYAN;
@@ -224,8 +162,14 @@ void InitDisplay(void){
 	P.Color[5]=VAL_YELLOW;
 	P.Color[6]=VAL_DK_RED;
 	P.Color[7]=VAL_DK_YELLOW;
+	for(ic=0;ic<P.Chann.Num;ic++) D.Chann[ic]=ic;
+	for(ic=0;ic<P.Chann.Num;ic++) D.Time[ic]=ic*P.Spc.Factor; // CORRECT FOR EXACT TIME BIN
+	for(ik=0;ik<P.Clock.Num;ik++) D.Clock[ik]=ik; // 
+	SetCtrlVal (hDisplay, DISPLAY_PAUSE, FALSE);
+	P.Command.Abort=FALSE;
+	P.Command.Pause=FALSE;
+	P.Command.Failure=FALSE;
 	SetActivePanel (hDisplay);
-	ProcessDrawEvents ();
 	}
 
 /* KERNEL FUNCTIONS */
@@ -248,6 +192,14 @@ void InitDisplay(void){
 //				D.Curve[id][il][ic]=pCurve[0];
 //			}
 //	}
+
+// Failure to load the whole data, wait a while
+void WaitFile(void){
+	if(P.Command.Abort) return;
+	while(P.Command.Pause);
+	Delay(P.Wait.File);
+	}	
+
 
 // Wait for next Data and load it. Exit when Break pressed 
 void ReadFile(void){
@@ -320,6 +272,7 @@ void UpdatePlot(void){
 
 	RefreshGraph(hDisplay,DISPLAY_GRAPH_PLOT);
 	DeleteGraphPlot(hDisplay,DISPLAY_GRAPH_PLOT,-1,VAL_DELAYED_DRAW);
+	while(!P.Command.Abort&&(P.Command.Pause));
 	}
 
 	
@@ -345,13 +298,12 @@ void UpdateTrace(void){
 			}
 		RefreshGraph(hDisplay,display_graph_trace[id]);
 		DeleteGraphPlot(hDisplay,display_graph_trace[id],-1,VAL_DELAYED_DRAW);
+		while(!P.Command.Abort&&(P.Command.Pause));
 		}
 	}
-	
-	
+
 // main kernel
 void DoProcess(void){
-	//SimulateUir();
 	ReadAll();
 	CompleteParm();
 	UpdatePanel();
@@ -370,6 +322,8 @@ void DoProcess(void){
 		}
 	CloseMem();
 	CloseFile();
+	DisplayPanel(hTrace);
+	DisplayPanel(hParm);
 	}
 
 

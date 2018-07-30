@@ -14,7 +14,7 @@
      /* Panels and Controls: */
 
 #define  DISPLAY                          1       /* callback function: ClosePanel */
-#define  DISPLAY_CONTPAUSE                2       /* control type: textButton, callback function: GetCommand */
+#define  DISPLAY_PAUSE                    2       /* control type: textButton, callback function: GetCommand */
 #define  DISPLAY_ABORT                    3       /* control type: command, callback function: GetCommand */
 #define  DISPLAY_GRAPH_TYPE               4       /* control type: ring, callback function: Setting */
 #define  DISPLAY_GRAPH_SCALE              5       /* control type: ring, callback function: Setting */

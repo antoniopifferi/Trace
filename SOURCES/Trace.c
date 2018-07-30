@@ -169,7 +169,8 @@ void CVICALLBACK ShowPanel (int menuBar, int menuItem, void *callbackData, int p
 
 
 void CVICALLBACK Process(int menuBar, int menuItem, void *callbackData,int panel){
-	DoProcess();
+	CmtThreadFunctionID functionId;
+	CmtScheduleThreadPoolFunction (DEFAULT_THREAD_POOL_HANDLE, DoProcess, NULL, &functionId);
 	}
 
 
