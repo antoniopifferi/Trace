@@ -135,13 +135,13 @@ void CloseMem(void){
 void InitFile(void){
 	P.Command.Failure=FALSE;
 	sprintf(P.File.Path,"%s\\%s.%s",P.File.Dir,P.File.Name,P.File.Ext);
-	P.File.File=fopen("D:\\Beta\\Programs\\Trace\\Data\\DENv0095.DAT","rb");
-	//P.File.File=fopen("P.File.Path","rb");
+	P.File.File=fopen(P.File.Path,"rb");
 	if(P.File.File==NULL){
 		ConfirmPopup ("FAILURE","Error Opening the File\nPress <ENTER> to exit");
 		P.Command.Failure=TRUE;
 		}
 	fread(&D.Head,sizeof(T_HEAD),1,P.File.File);
+	//P.Clock.Num=D.Head.LoopNum[LOOP1]*D.Head.LoopNum[LOOP2]*D.Head.LoopNum[LOOP3];
 	}
 
 
@@ -193,20 +193,28 @@ void InitDisplay(void){
 //			}
 //	}
 
-// Failure to load the whole data, wait a while
-void WaitFile(void){
-	if(P.Command.Abort) return;
-	while(P.Command.Pause);
-	Delay(P.Wait.File);
-	}	
-
-
 // Wait for next Data and load it. Exit when Break pressed 
 void ReadFile(void){
+	long sizefile,offset,sizeblock;
+	
+	// Check File Length
+	sizeblock=P.Lambda.Num*P.Det.Num*(sizeof(T_SUB)+P.Chann.Num*sizeof(T_DATA));
+	offset=sizeof(T_HEAD)+P.Clock.Actual*sizeblock;
+	fseek (P.File.File, 0, SEEK_END);
+	sizefile = ftell(P.File.File);
+	while(sizefile<(offset+sizeblock)) {
+		if(P.Command.Abort) return;
+		while(P.Command.Pause);
+		Delay (P.Wait.File);
+		fseek (P.File.File, 0, SEEK_END);
+		sizefile =ftell(P.File.File);
+		};
+	fseek (P.File.File, offset, SEEK_SET);
+	
 	for(int il=0;il<P.Lambda.Num;il++)
 		for(int id=0;id<P.Det.Num;id++){
-			while(fread(&D.Sub,sizeof(T_SUB),1,P.File.File)<1) WaitFile();
-			while(fread(D.Curve[id][il],sizeof(T_DATA),P.Chann.Num,P.File.File)<P.Chann.Num) WaitFile();
+			fread(&D.Sub,sizeof(T_SUB),1,P.File.File);
+			fread(D.Curve[id][il],sizeof(T_DATA),P.Chann.Num,P.File.File);
 			}
 	}
 
@@ -307,8 +315,8 @@ void DoProcess(void){
 	ReadAll();
 	CompleteParm();
 	UpdatePanel();
-	InitMem();
 	InitFile();
+	InitMem();
 	InitDisplay();
 	for(P.Clock.Actual=0;P.Clock.Actual<P.Clock.Num;P.Clock.Actual++){
 		if(P.Command.Failure) break;

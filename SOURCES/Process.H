@@ -49,6 +49,9 @@
 #define LABEL_NAMELEN	12
 #define LABEL_CONTENTLEN 22
 #define MAX_ROI_SUB			4
+#define LOOP1			0
+#define LOOP2			1
+#define LOOP3			2
 
 
 
