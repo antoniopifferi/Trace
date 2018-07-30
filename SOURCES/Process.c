@@ -174,25 +174,6 @@ void InitDisplay(void){
 
 /* KERNEL FUNCTIONS */
 
-//// Wait for next Data and load it. Exit when Break pressed 
-//void ReadFile(void){
-//	int numchar=P.Lambda.Num*P.Det.Num*(sizeof(T_SUB)+P.Chann.Num*sizeof(T_DATA));
-//	fread(D.BufChar,sizeof(char),numchar,P.File.File);
-//	while(fread(D.BufChar,sizeof(char),numchar,P.File.File)<=0){
-//		if(P.Command.Abort) return;
-//		while(!P.Command.Continue);
-//		Delay(DELAY_READ);
-//		}
-//	for(int il=0;il<P.Lambda.Num;il++)
-//		for(int id=0;id<P.Det.Num;id++){
-//			int jump=(id+il*P.Det.Num)*(sizeof(T_SUB)+P.Chann.Num*sizeof(T_DATA));
-//			char* pChar=D.BufChar+jump;
-//			T_DATA* pCurve=(short*) pChar;
-//			for(int ic=0;ic<P.Chann.Num;ic++)
-//				D.Curve[id][il][ic]=pCurve[0];
-//			}
-//	}
-
 // Wait for next Data and load it. Exit when Break pressed 
 void ReadFile(void){
 	long sizefile,offset,sizeblock;
