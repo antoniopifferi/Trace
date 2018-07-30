@@ -135,13 +135,13 @@ void CloseMem(void){
 void InitFile(void){
 	P.Command.Failure=FALSE;
 	sprintf(P.File.Path,"%s\\%s.%s",P.File.Dir,P.File.Name,P.File.Ext);
-	P.File.File=fopen(P.File.Path,"rb");
+	P.File.File=fopen("C:\\programs\\Trace\\Data\\TEST0006.DAT","rb");
+	//P.File.File=fopen("P.File.Path","rb");
 	if(P.File.File==NULL){
 		ConfirmPopup ("FAILURE","Error Opening the File\nPress <ENTER> to exit");
 		P.Command.Failure=TRUE;
 		}
 	fread(&D.Head,sizeof(T_HEAD),1,P.File.File);
-	//P.Clock.Num=D.Head.LoopNum[LOOP1]*D.Head.LoopNum[LOOP2]*D.Head.LoopNum[LOOP3];
 	}
 
 
@@ -193,6 +193,15 @@ void InitDisplay(void){
 //			}
 //	}
 
+// Failure to load the whole data, wait a while
+void WaitFile(void){
+	if(P.Command.Abort) return;
+	while(P.Command.Pause);
+	fflush (P.File.File);
+	Delay(P.Wait.File);
+	}	
+
+
 // Wait for next Data and load it. Exit when Break pressed 
 void ReadFile(void){
 	long sizefile,offset,sizeblock;
@@ -205,6 +214,7 @@ void ReadFile(void){
 	while(sizefile<(offset+sizeblock)) {
 		if(P.Command.Abort) return;
 		while(P.Command.Pause);
+	Delay(P.Wait.File);
 		Delay (P.Wait.File);
 		fseek (P.File.File, 0, SEEK_END);
 		sizefile =ftell(P.File.File);
@@ -213,8 +223,8 @@ void ReadFile(void){
 	
 	for(int il=0;il<P.Lambda.Num;il++)
 		for(int id=0;id<P.Det.Num;id++){
-			fread(&D.Sub,sizeof(T_SUB),1,P.File.File);
-			fread(D.Curve[id][il],sizeof(T_DATA),P.Chann.Num,P.File.File);
+			while(fread(&D.Sub,sizeof(T_SUB),1,P.File.File)<1) WaitFile();
+			while(fread(D.Curve[id][il],sizeof(T_DATA),P.Chann.Num,P.File.File)<P.Chann.Num) WaitFile();
 			}
 	}
 
@@ -315,8 +325,8 @@ void DoProcess(void){
 	ReadAll();
 	CompleteParm();
 	UpdatePanel();
-	InitFile();
 	InitMem();
+	InitFile();
 	InitDisplay();
 	for(P.Clock.Actual=0;P.Clock.Actual<P.Clock.Num;P.Clock.Actual++){
 		if(P.Command.Failure) break;

@@ -1,9 +1,9 @@
 [Workspace Header]
-Version = 1302
-Pathname = "/d/Beta/Programs/Trace/Trace.cws"
-CVI Dir = "/c/program files (x86)/national instruments/cvi2013"
+Version = 1700
+Pathname = "/c/programs/Trace/Trace.cws"
+CVI Dir = "/c/program files (x86)/national instruments/cvi2017"
 CVI Shared Dir = "/C/Program Files (x86)/National Instruments/Shared/CVI"
-CVI Pub Local Dir = "/C/ProgramData/National Instruments/CVI2013"
+CVI Pub Local Dir = "/C/ProgramData/National Instruments/CVI2017"
 CVI Pub Global Dir = "/C/ProgramData/National Instruments/CVI"
 IVI Standard Root Dir = "/C/Program Files (x86)/IVI Foundation/IVI"
 IVI Standard Root 64-bit Dir = "/C/Program Files/IVI Foundation/IVI"
@@ -14,9 +14,9 @@ Active Project = 1
 Project 0001 = "Trace.PRJ"
 Drag Bar Left = 160
 Window Top = 32
-Window Left = 34
+Window Left = 26
 Window Bottom = 534
-Window Right = 808
+Window Right = 816
 Maximized = True
 Maximized Children = True
 Max32 Number Of Errors = 20
@@ -30,88 +30,73 @@ Save Changes Before Compiling = "Always"
 Hide Windows = False
 Break At First Statement = False
 Sort Type = "File Name"
-Number of Opened Files = 6
+Number of Opened Files = 3
 Window Confinement Region Enabled = True
 MainColumnWidth = 143
 FileDateColumnWidth = 70
 FileSizeColumnWidth = 70
 
 [Project Header 0001]
-Version = 1302
+Version = 1700
 Don't Update DistKit = True
 Platform Code = 4
-Build Configuration = "Debug"
+Build Configuration = "Debug64"
 Warn User If Debugging Release = 1
 Batch Build Release = True
 Batch Build Debug = True
 
 [File 0001]
-Path = "/d/Beta/Programs/Trace/SOURCES/Process.c"
+Path = "/c/programs/Trace/SOURCES/Process.c"
 File Type = "CSource"
-Disk Date = 3615789991
+Disk Date = 3615799409
 In Projects = "1,"
 Window Top = 33
 Window Left = 10
-Window Z-Order = 1
-Source Window State = "1,164,165,164,0,0,0,0,0,146,0,0,0,0,0,35,147,0,164,0,349,683,1,0,"
+Window Z-Order = 2
+Source Window State = "1,318,319,318,0,0,0,0,0,80,0,0,0,0,0,25,136,0,143,6,349,683,1,0,"
 
 [File 0002]
-Path = "/d/Beta/Programs/Trace/SOURCES/Trace.c"
+Path = "/c/programs/Trace/SOURCES/Trace.c"
 File Type = "CSource"
-Disk Date = 3615789302
+Disk Date = 3615799461
 In Projects = "1,"
 Window Top = 64
 Window Left = 26
-Window Z-Order = 2
-Source Window State = "1,173,175,173,0,0,0,0,0,80,0,0,0,0,0,25,257,0,269,4,349,683,1,0,"
+Window Z-Order = 1
+Source Window State = "1,173,175,173,0,0,0,0,0,135,0,0,0,0,0,53,275,0,307,4,349,683,1,0,"
 
 [File 0003]
-Path = "/d/Beta/Programs/Trace/SOURCES/Trace.UIR"
+Path = "/c/programs/Trace/SOURCES/Trace.UIR"
 File Type = "User Interface Resource"
-Disk Date = 3615788653
+Disk Date = 3615792064
 In Projects = "1,"
 Window Top = 95
 Window Left = 42
 Window Height = 349
 Window Width = 683
-Window Z-Order = 3
 
 [File 0004]
-Path = "/d/Beta/Programs/Trace/SOURCES/Process.H"
+Path = "/c/programs/Trace/SOURCES/Process.H"
 File Type = "Include"
-Disk Date = 3615782957
+Disk Date = 3615799461
 In Projects = "1,"
 Window Top = 31
-Window Z-Order = 5
-Source Window State = "1,108,108,108,8,16,16,0,0,70,0,39,0,0,0,28,105,0,111,5,400,600,1,0,"
+Window Z-Order = 3
+Source Window State = "1,51,52,51,0,0,0,0,0,70,0,39,0,0,0,28,45,0,58,32,400,600,1,0,"
 
 [File 0005]
-Path = "/d/Beta/Programs/Trace/SOURCES/Trace.h"
+Path = "/c/programs/Trace/SOURCES/Trace.h"
 File Type = "Include"
-Disk Date = 3615782894
+Disk Date = 3615792064
 In Projects = "1,"
 Window Top = 95
 Window Left = 42
-Window Z-Order = 4
-Source Window State = "1,17,17,17,9,22,22,0,0,80,0,0,0,0,0,13,0,0,34,7,193,683,1,0,"
-
-[File 0006]
-Path = "/d/Beta/Programs/TRS/SOURCES/Measure.c"
-File Type = "CSource"
-Disk Date = 3613908314
-In Projects = ""
-Window Top = 64
-Window Left = 26
-Window Z-Order = 6
-Source Window State = "1,112,112,112,12,26,12,0,3,80,0,0,0,0,0,13,105,0,112,26,193,683,1,0,"
+Source Window State = "1,17,17,17,9,22,22,0,0,0,0,0,0,0,0,0,0,0,34,7,193,683,1,0,"
 
 [Tab Order]
-Tab 0001 = "/d/Beta/Programs/Trace/SOURCES/Process.c"
-Tab 0002 = "/d/Beta/Programs/Trace/SOURCES/Trace.c"
-Tab 0003 = "/d/Beta/Programs/Trace/SOURCES/Process.H"
-Tab 0004 = "/d/Beta/Programs/Trace/SOURCES/Trace.UIR"
-Tab 0005 = "/d/Beta/Programs/TRS/SOURCES/Measure.c"
-Tab 0006 = "/d/Beta/Programs/Trace/SOURCES/Trace.h"
+Tab 0001 = "/c/programs/Trace/SOURCES/Process.c"
+Tab 0002 = "/c/programs/Trace/SOURCES/Trace.c"
+Tab 0003 = "/c/programs/Trace/SOURCES/Process.H"
 
 [Default Build Config 0001 Debug]
 Generate Browse Info = True
