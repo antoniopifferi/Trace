@@ -281,14 +281,14 @@ void CreateTable(void){
 	T.Num=0;
 
 	// 8
-	AddTab(CE,TINT,PARM,PARM_GATE_0_0_FIRST,"Gate00First",0,0,&P.Gate[0][0].First);
-	AddTab(CE,TINT,PARM,PARM_GATE_0_1_FIRST,"Gate01First",0,0,&P.Gate[0][1].First);
-	AddTab(CE,TINT,PARM,PARM_GATE_1_0_FIRST,"Gate10First",0,0,&P.Gate[1][0].First);
-	AddTab(CE,TINT,PARM,PARM_GATE_1_1_FIRST,"Gate11First",0,0,&P.Gate[1][1].First);
-	AddTab(CE,TINT,PARM,PARM_GATE_0_0_LAST,"Gate00Last",0,0,&P.Gate[0][0].Last);
-	AddTab(CE,TINT,PARM,PARM_GATE_0_1_LAST,"Gate01Last",0,0,&P.Gate[0][1].Last);
-	AddTab(CE,TINT,PARM,PARM_GATE_1_0_LAST,"Gate10Last",0,0,&P.Gate[1][0].Last);
-	AddTab(CE,TINT,PARM,PARM_GATE_1_1_LAST,"Gate11Last",0,0,&P.Gate[1][1].Last);
+	AddTab(CE,TDOUBLE,PARM,PARM_WINDOW_0_0_FIRST,"Window00First",0,0,&P.Window[0][0].First);
+	AddTab(CE,TDOUBLE,PARM,PARM_WINDOW_0_1_FIRST,"Window01First",0,0,&P.Window[0][1].First);
+	AddTab(CE,TDOUBLE,PARM,PARM_WINDOW_1_0_FIRST,"Window10First",0,0,&P.Window[1][0].First);
+	AddTab(CE,TDOUBLE,PARM,PARM_WINDOW_1_1_FIRST,"Window11First",0,0,&P.Window[1][1].First);
+	AddTab(CE,TDOUBLE,PARM,PARM_WINDOW_0_0_LAST,"Window00Last",0,0,&P.Window[0][0].Last);
+	AddTab(CE,TDOUBLE,PARM,PARM_WINDOW_0_1_LAST,"Window01Last",0,0,&P.Window[0][1].Last);
+	AddTab(CE,TDOUBLE,PARM,PARM_WINDOW_1_0_LAST,"Window10Last",0,0,&P.Window[1][0].Last);
+	AddTab(CE,TDOUBLE,PARM,PARM_WINDOW_1_1_LAST,"Window11Last",0,0,&P.Window[1][1].Last);
 
 	// 8
 	AddTab(CE,TINT,PARM,PARM_BKG_0_0_FIRST,"Bkg00First",0,0,&P.Bkg[0][0].First);

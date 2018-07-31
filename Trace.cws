@@ -48,47 +48,47 @@ Batch Build Debug = True
 [File 0001]
 Path = "/d/Beta/Programs/Trace/SOURCES/Process.c"
 File Type = "CSource"
-Disk Date = 3615869964
+Disk Date = 3615907136
 In Projects = "1,"
 Window Top = 33
 Window Left = 10
-Window Z-Order = 1
-Source Window State = "1,307,309,307,0,0,0,0,0,146,0,0,0,0,0,35,285,0,319,0,349,683,1,0,"
+Window Z-Order = 2
+Source Window State = "1,322,323,323,0,0,0,0,0,80,0,0,0,0,0,25,140,0,168,23,349,683,1,0,"
 
 [File 0002]
 Path = "/d/Beta/Programs/Trace/SOURCES/Trace.c"
 File Type = "CSource"
-Disk Date = 3615789302
+Disk Date = 3615903859
 In Projects = "1,"
 Window Top = 64
 Window Left = 26
 Window Z-Order = 3
-Source Window State = "1,173,175,173,0,0,0,0,0,80,0,0,0,0,0,25,40,0,52,4,349,683,1,0,"
+Source Window State = "1,283,291,283,0,0,0,0,0,80,0,0,0,0,0,25,275,0,289,55,349,683,1,0,"
 
 [File 0003]
 Path = "/d/Beta/Programs/Trace/SOURCES/Process.H"
 File Type = "Include"
-Disk Date = 3615869482
+Disk Date = 3615903651
 In Projects = "1,"
 Window Top = 31
-Window Z-Order = 2
-Source Window State = "1,40,40,40,8,20,20,0,3,70,0,39,0,0,0,28,10,0,40,8,400,600,1,0,"
+Window Z-Order = 4
+Source Window State = "1,143,144,143,0,0,0,0,0,70,0,39,0,0,0,28,115,0,143,18,400,600,1,0,"
 
 [File 0004]
 Path = "/d/Beta/Programs/Trace/SOURCES/Trace.UIR"
 File Type = "User Interface Resource"
-Disk Date = 3615865179
+Disk Date = 3615902080
 In Projects = "1,"
 Window Top = 95
 Window Left = 42
 Window Height = 349
 Window Width = 683
-Window Z-Order = 4
+Window Z-Order = 1
 
 [File 0005]
 Path = "/d/Beta/Programs/Trace/SOURCES/Trace.h"
 File Type = "Include"
-Disk Date = 3615782894
+Disk Date = 3615902080
 In Projects = "1,"
 Window Top = 95
 Window Left = 42

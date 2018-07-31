@@ -45,22 +45,22 @@ void CompleteParm(void){
 	P.Spc.Factor=50000/P.Spc.Gain/P.Chann.Num; // ps/ch
 	
 	switch(P.Biom.Type){
-		case BIOM_CONTRAST:
-			P.Eps[0][0]=1;
-			P.Eps[0][1]=0;
-			P.Eps[1][0]=0;
-			P.Eps[1][1]=1;
-			strcpy(P.Biom.Label[0],BIOM_LABEL_C_1);
-			strcpy(P.Biom.Label[1],BIOM_LABEL_C_2);
-			break;
-		case BIOM_DMUA:
-			P.Eps[0][0]=1.0/BIOM_PATHLEN;
-			P.Eps[0][1]=1.0/BIOM_PATHLEN;
-			P.Eps[1][0]=1.0/BIOM_PATHLEN;
-			P.Eps[1][1]=1.0/BIOM_PATHLEN;
-			strcpy(P.Biom.Label[0],BIOM_LABEL_A_1);
-			strcpy(P.Biom.Label[1],BIOM_LABEL_A_2);
-			break;
+//		case BIOM_CONTRAST:
+//			P.Eps[0][0]=1;
+//			P.Eps[0][1]=0;
+//			P.Eps[1][0]=0;
+//			P.Eps[1][1]=1;
+//			strcpy(P.Biom.Label[0],BIOM_LABEL_C_1);
+//			strcpy(P.Biom.Label[1],BIOM_LABEL_C_2);
+//			break;
+//		case BIOM_DMUA:
+//			P.Eps[0][0]=1.0/BIOM_PATHLEN;
+//			P.Eps[0][1]=1.0/BIOM_PATHLEN;
+//			P.Eps[1][0]=1.0/BIOM_PATHLEN;
+//			P.Eps[1][1]=1.0/BIOM_PATHLEN;
+//			strcpy(P.Biom.Label[0],BIOM_LABEL_A_1);
+//			strcpy(P.Biom.Label[1],BIOM_LABEL_A_2);
+//			break;
 		case BIOM_HBHBO2:
 			P.Eps[0][0]=BIOM_EPS_1_1/BIOM_PATHLEN;;  // cm-1/uM
 			P.Eps[0][1]=BIOM_EPS_1_2/BIOM_PATHLEN;;  // cm-1/uM
@@ -110,10 +110,6 @@ void InitMem(void){
 	for(id=0;id<P.Det.Num;id++)
 		D.Gate[id]=calloc(P.Lambda.Num,sizeof(double));
 	
-	D.DMua=malloc(P.Det.Num*sizeof(double*));
-	for(id=0;id<P.Det.Num;id++)
-		D.DMua[id]=calloc(P.Lambda.Num,sizeof(double));
-	
 	D.Clock=calloc(P.Clock.Num,sizeof(double));
 	
 	D.Time=calloc(P.Chann.Num,sizeof(double));
@@ -131,7 +127,6 @@ void CloseMem(void){
 	for(id=0;id<P.Det.Num;id++) {for(il=0;il<P.Lambda.Num;il++) free(D.Curve[id][il]); free(D.Curve[id]);} free(D.Curve);
 	for(id=0;id<P.Det.Num;id++) free(D.Ref[id]); free(D.Ref); 
 	for(id=0;id<P.Det.Num;id++) free(D.Gate[id]); free(D.Gate); 
-	for(id=0;id<P.Det.Num;id++) free(D.DMua[id]); free(D.DMua); 
 	free(D.Clock);
 	free(D.Time);
 	free(D.Chann);
@@ -167,11 +162,11 @@ void InitDisplay(void){
 	display_graph_trace[1]=DISPLAY_GRAPH_TRACE_2;
 	val_active_yaxis[0]=VAL_LEFT_YAXIS;
 	val_active_yaxis[1]=VAL_RIGHT_YAXIS;
-	P.Color[0]=VAL_GREEN;
-	P.Color[1]=VAL_RED;
-	P.Color[2]=VAL_CYAN;
+	P.Color[0]=VAL_RED;
+	P.Color[1]=VAL_BLUE;
+	P.Color[2]=VAL_GREEN;
 	P.Color[3]=VAL_MAGENTA;
-	P.Color[4]=VAL_BLUE;
+	P.Color[4]=VAL_CYAN;
 	P.Color[5]=VAL_YELLOW;
 	P.Color[6]=VAL_DK_RED;
 	P.Color[7]=VAL_DK_YELLOW;
@@ -196,6 +191,7 @@ void InitDisplay(void){
 // Wait for next Data and load it. Exit when Break pressed 
 void ReadFile(void){
 	long sizefile,offset,sizeblock;
+	T_DATA peakValue;
 	
 	// Check File Length
 	sizeblock=P.Lambda.Num*P.Det.Num*(sizeof(T_SUB)+P.Chann.Num*sizeof(T_DATA));
@@ -219,6 +215,30 @@ void ReadFile(void){
 	}
 
 
+// Calculate TimeWindows
+void CalcWindow(void){
+	int il,id,ic;
+	
+	// initialize variables from the peak only First Time
+	for(il=0;il<P.Lambda.Num;il++){
+		T_DATA peakValue=0;
+		for(ic=0;ic<P.Chann.Num;ic++)
+			if(D.Curve[iDetEarly][il][ic]>peakValue){
+				peakValue=D.Curve[iDetEarly][il][ic];
+				P.PeakChann[il]=ic;
+				}
+		}
+	for(id=0;id<P.Det.Num;id++)
+		for(il=0;il<P.Lambda.Num;il++){
+			P.Gate[id][il].First=P.PeakChann[il]+(int)(P.Window[id][il].First/P.Spc.Factor);
+			P.Gate[id][il].Last=P.PeakChann[il]+(int)(P.Window[id][il].Last/P.Spc.Factor);
+			P.Window[id][il].Middle=P.Window[id][il].First+(P.Window[id][il].Last-P.Window[id][il].First)/2.0;
+			P.Gate[id][il].First=(P.Gate[id][il].First<0?0:P.Gate[id][il].First);
+			P.Gate[id][il].Last=(P.Gate[id][il].Last>(P.Chann.Num-1)?P.Chann.Num-1:P.Gate[id][il].Last);
+		}
+	for(ic=0;ic<P.Chann.Num;ic++) D.Time[ic]=(ic-P.PeakChann[0])*P.Spc.Factor;
+	}
+	
 // Calculate Gates
 void CalcGate(void){
 	int id,il,ic;
@@ -247,15 +267,39 @@ void CalcRef(void){
 
 // Calculate Concentrations
 void CalcBiom(void){
-	int id,il;
-	// calc Mua
+	double contrast[MAX_DET][MAX_LAMBDA]; // relative contrast
+	double logC[MAX_DET][MAX_LAMBDA]; // log of the contrast
+	double dMua[MAX_DET][MAX_LAMBDA]; // Delta Mua
+	int id,il,ib;
+	
+	// calc contrast, logCongrast, Delta Mua
 	for(id=0;id<P.Det.Num;id++)
-		for(il=0;il<P.Lambda.Num;il++)
-			D.DMua[id][il]=(D.Ref[id][il]>0?-log(D.Gate[id][il]/D.Ref[id][il]):0);
+		for(il=0;il<P.Lambda.Num;il++){
+			contrast[id][il]=(D.Ref[id][il]>0?D.Gate[id][il]/D.Ref[id][il]-1.0:0);
+			logC[id][il]=(D.Ref[id][il]>0?-log(D.Gate[id][il]/D.Ref[id][il]):0);
+			dMua[id][il]=logC[id][il]/(SPEED_C*P.Window[id][il].Middle);
+			}
+	
 	// calc Biomarker b1=O2Hb, b2=HHb
-	for(id=0;id<P.Det.Num;id++){
-		D.Biom[id][iB1][P.Clock.Actual]=(D.DMua[id][iL1]*P.Eps[iB2][iL2]-D.DMua[id][iL2]*P.Eps[iB2][iL1])/(P.Eps[iB1][iL1]*P.Eps[iB2][iL2]-P.Eps[iB2][iL2]*P.Eps[iB2][iL1]);
-		D.Biom[id][iB2][P.Clock.Actual]=(D.DMua[id][iL2]*P.Eps[iB1][iL1]-D.DMua[id][iL1]*P.Eps[iB1][iL2])/(P.Eps[iB1][iL1]*P.Eps[iB2][iL2]-P.Eps[iB2][iL2]*P.Eps[iB2][iL1]);
+	switch(P.Biom.Type){
+		case BIOM_CONTRAST:
+			for(id=0;id<P.Det.Num;id++)
+				for(ib=0;ib<P.Biom.Num;ib++)
+					D.Biom[id][ib][P.Clock.Actual]=contrast[id][ib];
+			break;
+		case BIOM_DMUA:
+			for(id=0;id<P.Det.Num;id++)
+				for(ib=0;ib<P.Biom.Num;ib++)
+					D.Biom[id][ib][P.Clock.Actual]=dMua[id][ib];
+			break;
+		case BIOM_HBHBO2:
+			for(id=0;id<P.Det.Num;id++){
+				D.Biom[id][iB1][P.Clock.Actual]=(dMua[id][iL1]*P.Eps[iB2][iL2]-dMua[id][iL2]*P.Eps[iB2][iL1])/(P.Eps[iB1][iL1]*P.Eps[iB2][iL2]-P.Eps[iB2][iL2]*P.Eps[iB2][iL1]);
+				D.Biom[id][iB2][P.Clock.Actual]=(dMua[id][iL2]*P.Eps[iB1][iL1]-dMua[id][iL1]*P.Eps[iB1][iL2])/(P.Eps[iB1][iL1]*P.Eps[iB2][iL2]-P.Eps[iB2][iL2]*P.Eps[iB2][iL1]);
+				}
+			break;
+		default:
+			break;
 		}
 	}
 								
@@ -265,6 +309,7 @@ void UpdatePlot(void){
 	int id,il,ip;
 	double minplot = 1e0;
 	double maxplot = 1e5;
+	double delta;
 	
 	if(P.Clock.Actual==0) P.Wait.Now=Timer();
 	SyncWait (P.Wait.Now, P.Wait.Display);
@@ -272,10 +317,11 @@ void UpdatePlot(void){
 	for(id=0;id<P.Det.Num;id++)
 		for(il=0;il<P.Lambda.Num;il++){
 			ip=il+id*P.Lambda.Num;
-			PlotXY (hDisplay, DISPLAY_GRAPH_PLOT, D.Chann, D.Curve[id][il], P.Chann.Num, VAL_INTEGER, VAL_UNSIGNED_SHORT_INTEGER, VAL_SCATTER, VAL_SMALL_CROSS,
+			PlotXY (hDisplay, DISPLAY_GRAPH_PLOT, D.Time, D.Curve[id][il], P.Chann.Num, VAL_DOUBLE, VAL_UNSIGNED_SHORT_INTEGER, VAL_SCATTER, VAL_SMALL_CROSS,
 					VAL_SOLID, 1, P.Color[ip]);
-			PlotLine (hDisplay, DISPLAY_GRAPH_PLOT, P.Gate[id][il].First, minplot, P.Gate[id][il].First, maxplot,  P.Color[ip]);
-			PlotLine(hDisplay,DISPLAY_GRAPH_PLOT,P.Gate[id][il].Last,minplot,P.Gate[id][il].Last,maxplot, P.Color[ip]);
+			delta=(P.PeakChann[il]-P.PeakChann[0])*P.Spc.Factor;
+			PlotLine(hDisplay,DISPLAY_GRAPH_PLOT,delta+P.Window[id][il].First,minplot,delta+P.Window[id][il].First,maxplot,P.Color[ip]);
+			PlotLine(hDisplay,DISPLAY_GRAPH_PLOT,delta+P.Window[id][il].Last,minplot,delta+P.Window[id][il].Last,maxplot, P.Color[ip]);
 			}
 
 	RefreshGraph(hDisplay,DISPLAY_GRAPH_PLOT);
@@ -328,6 +374,7 @@ void DoProcess(void){
 	for(P.Clock.Actual=0;P.Clock.Actual<P.Clock.Num;P.Clock.Actual++){
 		if(P.Command.Failure) break;
 		ReadFile();
+		if(P.Clock.Actual==0) CalcWindow();
 		if(P.Command.Abort) break;
 		CalcGate();
 		CalcRef();
@@ -337,8 +384,6 @@ void DoProcess(void){
 		}
 	CloseMem();
 	CloseFile();
-//	DisplayPanel(hTrace);
-//	DisplayPanel(hParm);
 	}
 
 

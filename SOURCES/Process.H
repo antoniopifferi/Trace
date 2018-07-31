@@ -22,6 +22,7 @@
 #define FALSE   	 0	   	 
 #define TRUE    	 1
 #define NEG			-1
+#define SPEED_C		0.03 // cm/ps
 
 /* DISPLAY CONSTANTS */
 #define MAX_PANEL		15
@@ -53,6 +54,7 @@
 #define iB2			1 // index HHb
 #define iL1			0 // 670 nm
 #define iL2			1 // 830
+#define iDetEarly	0 // detector early gate
 
 /* UNUSED CONSTANTS JUST FOR RE-USE OF TRS STRUCTURES */
 #define MAX_LOOP	5
@@ -136,6 +138,12 @@ struct BiomS{
 	char Label[MAX_BIOM][STRLEN];
 	};
 
+struct WindowS{
+	double First;
+	double Last;
+	double Middle;
+	};
+
 #pragma pack(push,1)
 T_HEAD{
 	short Ver[2];
@@ -214,19 +222,20 @@ struct ParmS {
 	struct BiomS Biom;
 	struct RangeS Bkg[MAX_DET][MAX_LAMBDA];
 	struct RangeS Gate[MAX_DET][MAX_LAMBDA];
+	struct WindowS Window[MAX_DET][MAX_LAMBDA];
 	struct RangeS Clock;
 	struct RangeS Ref;
 	double Eps[MAX_BIOM][MAX_LAMBDA];
 	struct SpcS Spc;
 	struct WaitS Wait;
 	int    Color[MAX_COLOR];
+	int	   PeakChann[MAX_LAMBDA];
 	};
 
 // Data Structures
 struct DataS {
 	double **Ref;		// D.Ref[MAX_DET][MAX_LAMBDA]
 	double **Gate;		// D.Gate[MAX_DET][MAX_LAMBDA] 
-	double **DMua;		// D.Gate[MAX_DET][MAX_LAMBDA] 
 	double ***Biom;		// D.Biom[MAX_DET][MAX_LAMBDA][P.Clock.Num] 
 	double *Clock;		// D.Clock[P.Clock.Num] 
 	T_DATA ***Curve;	// D.Curve[MAX_DET][MAX_LAMBDA][P.Num.Chann] 

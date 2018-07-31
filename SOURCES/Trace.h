@@ -26,14 +26,14 @@
 #define  DISPLAY_ZOOM                     11      /* control type: textMsg, callback function: (none) */
 
 #define  PARM                             2       /* callback function: ClosePanel */
-#define  PARM_GATE_0_0_FIRST              2       /* control type: numeric, callback function: Setting */
-#define  PARM_GATE_0_1_FIRST              3       /* control type: numeric, callback function: Setting */
-#define  PARM_GATE_1_0_FIRST              4       /* control type: numeric, callback function: Setting */
-#define  PARM_GATE_1_1_FIRST              5       /* control type: numeric, callback function: Setting */
-#define  PARM_GATE_0_0_LAST               6       /* control type: numeric, callback function: Setting */
-#define  PARM_GATE_0_1_LAST               7       /* control type: numeric, callback function: Setting */
-#define  PARM_GATE_1_0_LAST               8       /* control type: numeric, callback function: Setting */
-#define  PARM_GATE_1_1_LAST               9       /* control type: numeric, callback function: Setting */
+#define  PARM_WINDOW_0_0_FIRST            2       /* control type: numeric, callback function: Setting */
+#define  PARM_WINDOW_0_1_FIRST            3       /* control type: numeric, callback function: Setting */
+#define  PARM_WINDOW_1_0_FIRST            4       /* control type: numeric, callback function: Setting */
+#define  PARM_WINDOW_1_1_FIRST            5       /* control type: numeric, callback function: Setting */
+#define  PARM_WINDOW_0_0_LAST             6       /* control type: numeric, callback function: Setting */
+#define  PARM_WINDOW_0_1_LAST             7       /* control type: numeric, callback function: Setting */
+#define  PARM_WINDOW_1_0_LAST             8       /* control type: numeric, callback function: Setting */
+#define  PARM_WINDOW_1_1_LAST             9       /* control type: numeric, callback function: Setting */
 #define  PARM_BKG_0_0_FIRST               10      /* control type: numeric, callback function: Setting */
 #define  PARM_BKG_0_1_FIRST               11      /* control type: numeric, callback function: Setting */
 #define  PARM_BKG_1_0_FIRST               12      /* control type: numeric, callback function: Setting */
