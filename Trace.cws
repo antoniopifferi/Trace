@@ -30,7 +30,7 @@ Save Changes Before Compiling = "Always"
 Hide Windows = False
 Break At First Statement = False
 Sort Type = "File Name"
-Number of Opened Files = 4
+Number of Opened Files = 5
 Window Confinement Region Enabled = True
 MainColumnWidth = 143
 FileDateColumnWidth = 70
@@ -48,57 +48,59 @@ Batch Build Debug = True
 [File 0001]
 Path = "/d/Beta/Programs/Trace/SOURCES/Process.c"
 File Type = "CSource"
-Disk Date = 3615907136
+Disk Date = 3615913788
 In Projects = "1,"
 Window Top = 33
 Window Left = 10
-Window Z-Order = 2
-Source Window State = "1,322,323,323,0,0,0,0,0,80,0,0,0,0,0,25,140,0,168,23,349,683,1,0,"
+Window Z-Order = 1
+Source Window State = "1,377,378,377,0,0,0,0,0,146,0,0,0,0,0,35,257,0,291,8,349,683,1,0,"
 
 [File 0002]
 Path = "/d/Beta/Programs/Trace/SOURCES/Trace.c"
 File Type = "CSource"
-Disk Date = 3615903859
+Disk Date = 3615913659
 In Projects = "1,"
 Window Top = 64
 Window Left = 26
-Window Z-Order = 3
-Source Window State = "1,283,291,283,0,0,0,0,0,80,0,0,0,0,0,25,275,0,289,55,349,683,1,0,"
+Window Z-Order = 2
+Source Window State = "1,60,60,60,58,69,69,0,0,80,0,0,0,0,0,25,45,0,60,68,349,683,1,0,"
 
 [File 0003]
 Path = "/d/Beta/Programs/Trace/SOURCES/Process.H"
 File Type = "Include"
-Disk Date = 3615903651
+Disk Date = 3615911867
 In Projects = "1,"
 Window Top = 31
-Window Z-Order = 4
-Source Window State = "1,143,144,143,0,0,0,0,0,70,0,39,0,0,0,28,115,0,143,18,400,600,1,0,"
+Window Z-Order = 3
+Source Window State = "1,91,91,91,8,18,18,0,3,70,0,39,0,0,0,28,72,0,91,8,400,600,1,0,"
 
 [File 0004]
 Path = "/d/Beta/Programs/Trace/SOURCES/Trace.UIR"
 File Type = "User Interface Resource"
-Disk Date = 3615902080
+Disk Date = 3615911539
 In Projects = "1,"
 Window Top = 95
 Window Left = 42
 Window Height = 349
 Window Width = 683
-Window Z-Order = 1
+Window Z-Order = 5
 
 [File 0005]
 Path = "/d/Beta/Programs/Trace/SOURCES/Trace.h"
 File Type = "Include"
-Disk Date = 3615902080
+Disk Date = 3615911539
 In Projects = "1,"
 Window Top = 95
 Window Left = 42
-Source Window State = "1,17,17,17,9,22,22,0,0,0,0,0,0,0,0,0,0,0,34,7,193,683,1,0,"
+Window Z-Order = 4
+Source Window State = "1,99,100,99,0,0,0,0,3,80,0,0,0,0,0,13,70,0,100,0,193,683,1,0,"
 
 [Tab Order]
 Tab 0001 = "/d/Beta/Programs/Trace/SOURCES/Process.H"
 Tab 0002 = "/d/Beta/Programs/Trace/SOURCES/Process.c"
 Tab 0003 = "/d/Beta/Programs/Trace/SOURCES/Trace.c"
 Tab 0004 = "/d/Beta/Programs/Trace/SOURCES/Trace.UIR"
+Tab 0005 = "/d/Beta/Programs/Trace/SOURCES/Trace.h"
 
 [Default Build Config 0001 Debug]
 Generate Browse Info = True

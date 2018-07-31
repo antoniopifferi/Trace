@@ -31,6 +31,7 @@ void UpdatePanel(void);
 void ReadAll(void);
 
 void DoProcess(void);
+void DoSaveResult(char *FilePath);
 
 
 /* ########################   MAIN PROCEDURES   ########################### */
@@ -51,6 +52,15 @@ int main (int argc, char *argv[]){
 	InitPanel();
 	SetSleepPolicy (VAL_SLEEP_MORE);
 	RunUserInterface ();
+	return 0;
+	}
+
+int  CVICALLBACK SaveResult(int panel, int control, int event, void *callbackData, int eventData1, int eventData2){
+	int c_panel;
+	char fpath[MAX_PATHNAME_LEN];
+	int status = FileSelectPopup (DIR_RESULT, EXT_RESULT, EXT_RESULT, "SAVE FILE RESULTS", VAL_SAVE_BUTTON, 0, 1, 1, 1,fpath);
+	if(status==VAL_NO_FILE_SELECTED) return;
+	DoSaveResult(fpath);
 	return 0;
 	}
 

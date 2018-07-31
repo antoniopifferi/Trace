@@ -12,3 +12,5 @@ cvibuild\.Trace/
 *.obj
 
 SOURCES/msvc/
+
+RESULT/
