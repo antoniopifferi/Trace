@@ -88,6 +88,8 @@
 #define DIRPROG		""
 #define DIRSETTINGS   "SET"
 #define EXTSETTINGS   "*.TRC" 
+#define DIR_RESULT   "RESULT"
+#define EXT_RESULT   "*.TXT" 
 
 /* USER INTERFACE CONSTANTS */
 #define PATH_UIR	".\\Sources\\TRACE.UIR"

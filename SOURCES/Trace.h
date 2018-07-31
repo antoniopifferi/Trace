@@ -15,15 +15,16 @@
 
 #define  DISPLAY                          1       /* callback function: ClosePanel */
 #define  DISPLAY_PAUSE                    2       /* control type: textButton, callback function: GetCommand */
-#define  DISPLAY_ABORT                    3       /* control type: command, callback function: GetCommand */
-#define  DISPLAY_GRAPH_TYPE               4       /* control type: ring, callback function: Setting */
-#define  DISPLAY_GRAPH_SCALE              5       /* control type: ring, callback function: Setting */
-#define  DISPLAY_GRAPH_TRACE_2            6       /* control type: graph, callback function: (none) */
-#define  DISPLAY_GRAPH_TRACE_1            7       /* control type: graph, callback function: (none) */
-#define  DISPLAY_GRAPH_PLOT               8       /* control type: graph, callback function: (none) */
-#define  DISPLAY_OSCILL_ZOOM_FIRST        9       /* control type: numeric, callback function: Setting */
-#define  DISPLAY_OSCILL_ZOOM_LAST         10      /* control type: numeric, callback function: Setting */
-#define  DISPLAY_ZOOM                     11      /* control type: textMsg, callback function: (none) */
+#define  DISPLAY_SAVE_RESULT              3       /* control type: command, callback function: SaveResult */
+#define  DISPLAY_ABORT                    4       /* control type: command, callback function: GetCommand */
+#define  DISPLAY_GRAPH_TYPE               5       /* control type: ring, callback function: Setting */
+#define  DISPLAY_GRAPH_SCALE              6       /* control type: ring, callback function: Setting */
+#define  DISPLAY_GRAPH_TRACE_2            7       /* control type: graph, callback function: (none) */
+#define  DISPLAY_GRAPH_TRACE_1            8       /* control type: graph, callback function: (none) */
+#define  DISPLAY_GRAPH_PLOT               9       /* control type: graph, callback function: (none) */
+#define  DISPLAY_OSCILL_ZOOM_FIRST        10      /* control type: numeric, callback function: Setting */
+#define  DISPLAY_OSCILL_ZOOM_LAST         11      /* control type: numeric, callback function: Setting */
+#define  DISPLAY_ZOOM                     12      /* control type: textMsg, callback function: (none) */
 
 #define  PARM                             2       /* callback function: ClosePanel */
 #define  PARM_WINDOW_0_0_FIRST            2       /* control type: numeric, callback function: Setting */
@@ -96,6 +97,7 @@ int  CVICALLBACK GetCommand(int panel, int control, int event, void *callbackDat
 void CVICALLBACK LoadSetting(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK Process(int menubar, int menuItem, void *callbackData, int panel);
 void CVICALLBACK Quit(int menubar, int menuItem, void *callbackData, int panel);
+int  CVICALLBACK SaveResult(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK SaveSetting(int menubar, int menuItem, void *callbackData, int panel);
 int  CVICALLBACK Setting(int panel, int control, int event, void *callbackData, int eventData1, int eventData2);
 void CVICALLBACK ShowPanel(int menubar, int menuItem, void *callbackData, int panel);

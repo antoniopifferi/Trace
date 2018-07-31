@@ -363,6 +363,24 @@ void UpdateTrace(void){
 		}
 	}
 
+
+// main kernel
+void DoSaveResult(char* fPath){
+	int ik,id,ib;
+	FILE* pFile;
+	pFile=fopen(fPath,"w");
+	fprintf(pFile,"Clock (s)\tEarly %s\tEarly %s\tLate %s\tLate %s\n",P.Biom.Label[0],P.Biom.Label[1],P.Biom.Label[0],P.Biom.Label[1]);
+	for(ik=0;ik<=P.Clock.Actual;ik++){
+		fprintf (pFile, "%lf\t", D.Clock[ik]);
+		for(id=0;id<P.Det.Num;id++)
+			for(ib=0;ib<P.Biom.Num;ib++)
+				fprintf(pFile,"%lf\t",D.Biom[id][ib][ik]);
+		fprintf(pFile,"\n");
+		}
+	fclose(pFile);
+	}
+
+
 // main kernel
 void DoProcess(void){
 	ReadAll();
