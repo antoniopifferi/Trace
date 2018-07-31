@@ -50,24 +50,32 @@ void CompleteParm(void){
 			P.Eps[0][1]=0;
 			P.Eps[1][0]=0;
 			P.Eps[1][1]=1;
+			strcpy(P.Biom.Label[0],BIOM_LABEL_C_1);
+			strcpy(P.Biom.Label[1],BIOM_LABEL_C_2);
 			break;
 		case BIOM_DMUA:
 			P.Eps[0][0]=1.0/BIOM_PATHLEN;
-			P.Eps[0][1]=0;
-			P.Eps[1][0]=0;
+			P.Eps[0][1]=1.0/BIOM_PATHLEN;
+			P.Eps[1][0]=1.0/BIOM_PATHLEN;
 			P.Eps[1][1]=1.0/BIOM_PATHLEN;
+			strcpy(P.Biom.Label[0],BIOM_LABEL_A_1);
+			strcpy(P.Biom.Label[1],BIOM_LABEL_A_2);
 			break;
 		case BIOM_HBHBO2:
-			P.Eps[0][0]=6.770E-04/BIOM_PATHLEN;;  // cm-1/uM
-			P.Eps[0][1]=2.243E-03/BIOM_PATHLEN;;  // cm-1/uM
-			P.Eps[1][0]=6.436E-03/BIOM_PATHLEN;;  // cm-1/uM
-			P.Eps[1][1]=1.596E-03/BIOM_PATHLEN;;  // cm-1/uM
+			P.Eps[0][0]=BIOM_EPS_1_1/BIOM_PATHLEN;;  // cm-1/uM
+			P.Eps[0][1]=BIOM_EPS_1_2/BIOM_PATHLEN;;  // cm-1/uM
+			P.Eps[1][0]=BIOM_EPS_2_1/BIOM_PATHLEN;;  // cm-1/uM
+			P.Eps[1][1]=BIOM_EPS_2_2/BIOM_PATHLEN;;  // cm-1/uM
+			strcpy(P.Biom.Label[0],BIOM_LABEL_H_1);
+			strcpy(P.Biom.Label[1],BIOM_LABEL_H_2);
 			break;
 		default:
 			P.Eps[0][0]=0;
 			P.Eps[0][1]=0;
 			P.Eps[1][0]=0;
 			P.Eps[1][1]=0;
+			strcpy(P.Biom.Label[0],"");
+			strcpy(P.Biom.Label[1],"");
 			break;
 			}
 	}
@@ -153,7 +161,12 @@ void CloseFile(void){
 
 // Initialise Display
 void InitDisplay(void){
-	int ic,ik;
+	int ic,ib,id,ik;
+	int display_graph_trace[2],val_active_yaxis[2];
+	display_graph_trace[0]=DISPLAY_GRAPH_TRACE_1;
+	display_graph_trace[1]=DISPLAY_GRAPH_TRACE_2;
+	val_active_yaxis[0]=VAL_LEFT_YAXIS;
+	val_active_yaxis[1]=VAL_RIGHT_YAXIS;
 	P.Color[0]=VAL_GREEN;
 	P.Color[1]=VAL_RED;
 	P.Color[2]=VAL_CYAN;
@@ -169,6 +182,12 @@ void InitDisplay(void){
 	P.Command.Abort=FALSE;
 	P.Command.Pause=FALSE;
 	P.Command.Failure=FALSE;
+	for(id=0;id<P.Det.Num;id++)
+		for(ib=0;ib<P.Biom.Num;ib++){
+			SetCtrlAttribute(hDisplay,display_graph_trace[id],ATTR_ACTIVE_YAXIS,val_active_yaxis[ib]);
+			SetCtrlAttribute(hDisplay,display_graph_trace[id],ATTR_YNAME,P.Biom.Label[ib]);
+			SetCtrlAttribute(hDisplay,display_graph_trace[id],ATTR_YLABEL_COLOR,P.Color[ib]);
+			}
 	SetActivePanel (hDisplay);
 	}
 
@@ -221,7 +240,7 @@ void CalcRef(void){
 	if((P.Clock.Actual<P.Ref.First)||(P.Clock.Actual>P.Ref.Last)) return;
 	for(int id=0;id<P.Det.Num;id++)
 		for(int il=0;il<P.Lambda.Num;il++){
-			double factor=1/((P.Clock.Actual-P.Ref.First)+1);			// inverse of the number of points (clock) in the REF so far
+			double factor=1.0/((P.Clock.Actual-P.Ref.First)+1);			// inverse of the number of points (clock) in the REF so far
 			D.Ref[id][il]=factor*D.Gate[id][il]+(1-factor)*D.Ref[id][il];		 // the reference is dynamically updated once the data are available
 			}
 	}
@@ -267,24 +286,31 @@ void UpdatePlot(void){
 	
 // Update Trace Display
 void UpdateTrace(void){
-	int id,ib;
-	double minplot = -100;
-	double maxplot = +100;
-	int display_graph_trace[2];
+	int id,ib,ik;
+	double minY = 0;
+	double maxY = 0;
+	int display_graph_trace[2],val_active_yaxis[2];
 	display_graph_trace[0]=DISPLAY_GRAPH_TRACE_1;
 	display_graph_trace[1]=DISPLAY_GRAPH_TRACE_2;
+	val_active_yaxis[0]=VAL_LEFT_YAXIS;
+	val_active_yaxis[1]=VAL_RIGHT_YAXIS;
 
+	for(id=0;id<P.Det.Num;id++)
+		for(ib=0;ib<P.Biom.Num;ib++)
+			for(ik=0;ik<=P.Clock.Actual;ik++){
+				if(D.Biom[id][ib][ik]<minY) minY=D.Biom[id][ib][ik];
+				if(D.Biom[id][ib][ik]>maxY) maxY=D.Biom[id][ib][ik];
+				if(maxY==minY) maxY+=1E-10;
+			}
 	for(id=0;id<P.Det.Num;id++){
-		PlotLine(hDisplay,display_graph_trace[id],P.Ref.First,minplot,P.Ref.First,maxplot,VAL_GRAY);
-		PlotLine(hDisplay,display_graph_trace[id],P.Ref.Last,minplot,P.Ref.Last,maxplot,VAL_GRAY);
 		for(ib=0;ib<P.Biom.Num;ib++){
-			if(ib==0)
-				SetCtrlAttribute(hDisplay,display_graph_trace[id],ATTR_ACTIVE_YAXIS,VAL_LEFT_YAXIS);
-			else
-				SetCtrlAttribute(hDisplay,display_graph_trace[id],ATTR_ACTIVE_YAXIS,VAL_RIGHT_YAXIS);
+			SetCtrlAttribute(hDisplay,display_graph_trace[id],ATTR_ACTIVE_YAXIS,val_active_yaxis[ib]);
+			SetAxisScalingMode (hDisplay,display_graph_trace[id],val_active_yaxis[ib],VAL_MANUAL,minY,maxY);
 			PlotXY (hDisplay, display_graph_trace[id], D.Clock, D.Biom[id][ib], P.Clock.Num, VAL_DOUBLE, VAL_DOUBLE, VAL_CONNECTED_POINTS, VAL_SMALL_CROSS,
 					VAL_SOLID, 1, P.Color[ib]);
 			}
+		PlotLine(hDisplay,display_graph_trace[id],P.Ref.First,minY,P.Ref.First,maxY,VAL_GRAY);
+		PlotLine(hDisplay,display_graph_trace[id],P.Ref.Last,minY,P.Ref.Last,maxY,VAL_GRAY);
 		RefreshGraph(hDisplay,display_graph_trace[id]);
 		DeleteGraphPlot(hDisplay,display_graph_trace[id],-1,VAL_DELAYED_DRAW);
 		while(!P.Command.Abort&&(P.Command.Pause));
@@ -311,8 +337,8 @@ void DoProcess(void){
 		}
 	CloseMem();
 	CloseFile();
-	DisplayPanel(hTrace);
-	DisplayPanel(hParm);
+//	DisplayPanel(hTrace);
+//	DisplayPanel(hParm);
 	}
 
 

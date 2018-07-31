@@ -32,6 +32,17 @@
 #define BIOM_CONTRAST	0	// display contrast
 #define BIOM_DMUA		1	// display DeltaMua
 #define BIOM_HBHBO2		2	// display Hb HbO2
+#define BIOM_LABEL_C_1	"Contrast @670 nm"
+#define BIOM_LABEL_C_2	"Contrast @830 nm"
+#define BIOM_LABEL_A_1	"DMua (cm-1) @670 nm"
+#define BIOM_LABEL_A_2	"DMua (cm-1) @830 nm"
+#define BIOM_LABEL_H_1	"O2Hb (uM)"
+#define BIOM_LABEL_H_2	"HHB (uM)"
+#define BIOM_EPS_1_1	6.770E-04
+#define BIOM_EPS_1_2	2.243E-03
+#define BIOM_EPS_2_1	6.436E-03
+#define BIOM_EPS_2_2	1.596E-03
+
 
 /* PROCESS CONSTANTS */
 #define MAX_BIOM 	2 // maximum number of biomarkers (different from P.Biom.Num which is the actual number)
@@ -122,6 +133,7 @@ struct SpcS{
 struct BiomS{
 	int Num;
 	int Type;
+	char Label[MAX_BIOM][STRLEN];
 	};
 
 #pragma pack(push,1)
