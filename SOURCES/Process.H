@@ -232,6 +232,7 @@ struct ParmS {
 	struct WaitS Wait;
 	int    Color[MAX_COLOR];
 	int	   PeakChann[MAX_LAMBDA];
+	int    AllocatedMem;
 	};
 
 // Data Structures

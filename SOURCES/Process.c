@@ -88,6 +88,8 @@ void CompleteParm(void){
 void InitMem(void){	
 	int id,ib,il;
 	
+	//if(P.AllocatedMem==TRUE) CloseMem();
+	
 	D.Biom=malloc(P.Det.Num*sizeof(double**));
 	for(id=0;id<P.Det.Num;id++){
 		D.Biom[id]=malloc(P.Biom.Num*sizeof(double*));
@@ -365,12 +367,20 @@ void UpdateTrace(void){
 
 
 // main kernel
-void DoSaveResult(char* fPath){
+void DoSaveResult(void){
 	int ik,id,ib;
 	FILE* pFile;
+	int c_panel;
+	char fPath[MAX_PATHNAME_LEN];
+	
+	if(!ConfirmPopup ("SAVE RESULTS", "Do You want to save the results?")) return;
+
+	int status = FileSelectPopup (DIR_RESULT, EXT_RESULT, EXT_RESULT, "SAVE FILE RESULTS", VAL_SAVE_BUTTON, 0, 1, 1, 1,fPath);
+	if(status==VAL_NO_FILE_SELECTED) return;
+
 	pFile=fopen(fPath,"w");
 	fprintf(pFile,"Clock (s)\tEarly %s\tEarly %s\tLate %s\tLate %s\n",P.Biom.Label[0],P.Biom.Label[1],P.Biom.Label[0],P.Biom.Label[1]);
-	for(ik=0;ik<=P.Clock.Actual;ik++){
+	for(ik=0;ik<P.Clock.Actual;ik++){
 		fprintf (pFile, "%lf\t", D.Clock[ik]);
 		for(id=0;id<P.Det.Num;id++)
 			for(ib=0;ib<P.Biom.Num;ib++)
@@ -380,6 +390,23 @@ void DoSaveResult(char* fPath){
 	fclose(pFile);
 	}
 
+
+//// main kernel
+//void DoSaveResult(char* fPath){
+//	int ik,id,ib;
+//	FILE* pFile;
+//	pFile=fopen(fPath,"w");
+//	fprintf(pFile,"Clock (s)\tEarly %s\tEarly %s\tLate %s\tLate %s\n",P.Biom.Label[0],P.Biom.Label[1],P.Biom.Label[0],P.Biom.Label[1]);
+//	for(ik=0;ik<=P.Clock.Actual;ik++){
+//		fprintf (pFile, "%lf\t", D.Clock[ik]);
+//		for(id=0;id<P.Det.Num;id++)
+//			for(ib=0;ib<P.Biom.Num;ib++)
+//				fprintf(pFile,"%lf\t",D.Biom[id][ib][ik]);
+//		fprintf(pFile,"\n");
+//		}
+//	fclose(pFile);
+//	}
+//
 
 // main kernel
 void DoProcess(void){
@@ -400,6 +427,7 @@ void DoProcess(void){
 		UpdatePlot();
 		UpdateTrace();
 		}
+	DoSaveResult();
 	CloseMem();
 	CloseFile();
 	}

@@ -45,6 +45,8 @@ int main (int argc, char *argv[]){
 	if ((hParm = LoadPanel (hTrace, PATH_UIR, PARM)) < 0) return -1;
 	if ((hDisplay = LoadPanel (hTrace, PATH_UIR, DISPLAY)) < 0) return -1;
 	
+	P.AllocatedMem=FALSE;
+	
 	CreateTable();
 	
 	DisplayPanel(hTrace);
@@ -56,6 +58,7 @@ int main (int argc, char *argv[]){
 	}
 
 int  CVICALLBACK SaveResult(int panel, int control, int event, void *callbackData, int eventData1, int eventData2){
+	if(event!=EVENT_COMMIT) return 0;
 	int c_panel;
 	char fpath[MAX_PATHNAME_LEN];
 	int status = FileSelectPopup (DIR_RESULT, EXT_RESULT, EXT_RESULT, "SAVE FILE RESULTS", VAL_SAVE_BUTTON, 0, 1, 1, 1,fpath);
