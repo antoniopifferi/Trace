@@ -45,27 +45,27 @@ void CompleteParm(void){
 	P.Spc.Factor=50000/P.Spc.Gain/P.Chann.Num; // ps/ch
 	
 	switch(P.Biom.Type){
-//		case BIOM_CONTRAST:
+		case BIOM_CONTRAST:
 //			P.Eps[0][0]=1;
 //			P.Eps[0][1]=0;
 //			P.Eps[1][0]=0;
 //			P.Eps[1][1]=1;
-//			strcpy(P.Biom.Label[0],BIOM_LABEL_C_1);
-//			strcpy(P.Biom.Label[1],BIOM_LABEL_C_2);
-//			break;
-//		case BIOM_DMUA:
+			strcpy(P.Biom.Label[0],BIOM_LABEL_C_1);
+			strcpy(P.Biom.Label[1],BIOM_LABEL_C_2);
+			break;
+		case BIOM_DMUA:
 //			P.Eps[0][0]=1.0/BIOM_PATHLEN;
 //			P.Eps[0][1]=1.0/BIOM_PATHLEN;
 //			P.Eps[1][0]=1.0/BIOM_PATHLEN;
 //			P.Eps[1][1]=1.0/BIOM_PATHLEN;
-//			strcpy(P.Biom.Label[0],BIOM_LABEL_A_1);
-//			strcpy(P.Biom.Label[1],BIOM_LABEL_A_2);
-//			break;
+			strcpy(P.Biom.Label[0],BIOM_LABEL_A_1);
+			strcpy(P.Biom.Label[1],BIOM_LABEL_A_2);
+			break;
 		case BIOM_HBHBO2:
-			P.Eps[0][0]=BIOM_EPS_1_1/BIOM_PATHLEN;;  // cm-1/uM
-			P.Eps[0][1]=BIOM_EPS_1_2/BIOM_PATHLEN;;  // cm-1/uM
-			P.Eps[1][0]=BIOM_EPS_2_1/BIOM_PATHLEN;;  // cm-1/uM
-			P.Eps[1][1]=BIOM_EPS_2_2/BIOM_PATHLEN;;  // cm-1/uM
+			P.Eps[0][0]=BIOM_EPS_1_1;  // cm-1/uM
+			P.Eps[0][1]=BIOM_EPS_1_2;  // cm-1/uM
+			P.Eps[1][0]=BIOM_EPS_2_1;  // cm-1/uM
+			P.Eps[1][1]=BIOM_EPS_2_2;  // cm-1/uM
 			strcpy(P.Biom.Label[0],BIOM_LABEL_H_1);
 			strcpy(P.Biom.Label[1],BIOM_LABEL_H_2);
 			break;
@@ -234,9 +234,13 @@ void CalcWindow(void){
 		for(il=0;il<P.Lambda.Num;il++){
 			P.Gate[id][il].First=P.PeakChann[il]+(int)(P.Window[id][il].First/P.Spc.Factor);
 			P.Gate[id][il].Last=P.PeakChann[il]+(int)(P.Window[id][il].Last/P.Spc.Factor);
-			P.Window[id][il].Middle=P.Window[id][il].First+(P.Window[id][il].Last-P.Window[id][il].First)/2.0;
 			P.Gate[id][il].First=(P.Gate[id][il].First<0?0:P.Gate[id][il].First);
 			P.Gate[id][il].Last=(P.Gate[id][il].Last>(P.Chann.Num-1)?P.Chann.Num-1:P.Gate[id][il].Last);
+			P.Window[id][il].Middle=P.Window[id][il].First+(P.Window[id][il].Last-P.Window[id][il].First)/2.0;
+			P.Bkg[id][il].First=P.PeakChann[il]+(int)(P.TimeBkg[id][il].First/P.Spc.Factor);
+			P.Bkg[id][il].Last=P.PeakChann[il]+(int)(P.TimeBkg[id][il].Last/P.Spc.Factor);
+			P.Bkg[id][il].First=(P.Bkg[id][il].First<0?0:P.Bkg[id][il].First);
+			P.Bkg[id][il].Last=(P.Bkg[id][il].Last>(P.Chann.Num-1)?P.Chann.Num-1:P.Bkg[id][il].Last);
 		}
 	for(ic=0;ic<P.Chann.Num;ic++) D.Time[ic]=(ic-P.PeakChann[0])*P.Spc.Factor;
 	}
@@ -279,7 +283,8 @@ void CalcBiom(void){
 		for(il=0;il<P.Lambda.Num;il++){
 			contrast[id][il]=(D.Ref[id][il]>0?D.Gate[id][il]/D.Ref[id][il]-1.0:0);
 			logC[id][il]=(D.Ref[id][il]>0?-log(D.Gate[id][il]/D.Ref[id][il]):0);
-			dMua[id][il]=logC[id][il]/(SPEED_C*P.Window[id][il].Middle);
+			dMua[id][il]=logC[id][il]/BIOM_PATHLEN;
+			//dMua[id][il]=logC[id][il]/(SPEED_C*P.Window[id][il].Middle);
 			}
 	
 	// calc Biomarker b1=O2Hb, b2=HHb
@@ -325,7 +330,10 @@ void UpdatePlot(void){
 			PlotLine(hDisplay,DISPLAY_GRAPH_PLOT,delta+P.Window[id][il].First,minplot,delta+P.Window[id][il].First,maxplot,P.Color[ip]);
 			PlotLine(hDisplay,DISPLAY_GRAPH_PLOT,delta+P.Window[id][il].Last,minplot,delta+P.Window[id][il].Last,maxplot, P.Color[ip]);
 			}
-
+	if(P.Zoom.Auto)
+		SetAxisScalingMode (hDisplay, DISPLAY_GRAPH_PLOT, VAL_BOTTOM_XAXIS, VAL_AUTOSCALE, 0, 0);
+	else
+		SetAxisScalingMode (hDisplay, DISPLAY_GRAPH_PLOT, VAL_BOTTOM_XAXIS, VAL_MANUAL, P.Zoom.Low, P.Zoom.High);
 	RefreshGraph(hDisplay,DISPLAY_GRAPH_PLOT);
 	DeleteGraphPlot(hDisplay,DISPLAY_GRAPH_PLOT,-1,VAL_DELAYED_DRAW);
 	while(!P.Command.Abort&&(P.Command.Pause));
@@ -337,6 +345,8 @@ void UpdateTrace(void){
 	int id,ib,ik;
 	double minY = 0;
 	double maxY = 0;
+	double minYauto = 0;
+	double maxYauto = 0;
 	int display_graph_trace[2],val_active_yaxis[2];
 	display_graph_trace[0]=DISPLAY_GRAPH_TRACE_1;
 	display_graph_trace[1]=DISPLAY_GRAPH_TRACE_2;
@@ -346,12 +356,14 @@ void UpdateTrace(void){
 	for(id=0;id<P.Det.Num;id++)
 		for(ib=0;ib<P.Biom.Num;ib++)
 			for(ik=0;ik<=P.Clock.Actual;ik++){
-				if(D.Biom[id][ib][ik]<minY) minY=D.Biom[id][ib][ik];
-				if(D.Biom[id][ib][ik]>maxY) maxY=D.Biom[id][ib][ik];
-				if(maxY==minY) maxY+=1E-10;
+				if(D.Biom[id][ib][ik]<minYauto) minYauto=D.Biom[id][ib][ik];
+				if(D.Biom[id][ib][ik]>maxYauto) maxYauto=D.Biom[id][ib][ik];
+				if(maxYauto==minYauto) maxYauto+=1E-10;
 			}
 	for(id=0;id<P.Det.Num;id++){
 		for(ib=0;ib<P.Biom.Num;ib++){
+			minY=(P.Limit[id][ib].Auto?minYauto:P.Limit[id][ib].Low);
+			maxY=(P.Limit[id][ib].Auto?maxYauto:P.Limit[id][ib].High);
 			SetCtrlAttribute(hDisplay,display_graph_trace[id],ATTR_ACTIVE_YAXIS,val_active_yaxis[ib]);
 			SetAxisScalingMode (hDisplay,display_graph_trace[id],val_active_yaxis[ib],VAL_MANUAL,minY,maxY);
 			PlotXY (hDisplay, display_graph_trace[id], D.Clock, D.Biom[id][ib], P.Clock.Num, VAL_DOUBLE, VAL_DOUBLE, VAL_CONNECTED_POINTS, VAL_SMALL_CROSS,

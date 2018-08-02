@@ -304,16 +304,35 @@ void CreateTable(void){
 	AddTab(CE,TDOUBLE,PARM,PARM_WINDOW_1_1_LAST,"Window11Last",0,0,&P.Window[1][1].Last);
 
 	// 8
-	AddTab(CE,TINT,PARM,PARM_BKG_0_0_FIRST,"Bkg00First",0,0,&P.Bkg[0][0].First);
-	AddTab(CE,TINT,PARM,PARM_BKG_0_1_FIRST,"Bkg01First",0,0,&P.Bkg[0][1].First);
-	AddTab(CE,TINT,PARM,PARM_BKG_1_0_FIRST,"Bkg10First",0,0,&P.Bkg[1][0].First);
-	AddTab(CE,TINT,PARM,PARM_BKG_1_1_FIRST,"Bkg11First",0,0,&P.Bkg[1][1].First);
-	AddTab(CE,TINT,PARM,PARM_BKG_0_0_LAST,"Bkg00Last",0,0,&P.Bkg[0][0].Last);
-	AddTab(CE,TINT,PARM,PARM_BKG_0_1_LAST,"Bkg01Last",0,0,&P.Bkg[0][1].Last);
-	AddTab(CE,TINT,PARM,PARM_BKG_1_0_LAST,"Bkg10Last",0,0,&P.Bkg[1][0].Last);
-	AddTab(CE,TINT,PARM,PARM_BKG_1_1_LAST,"Bkg11Last",0,0,&P.Bkg[1][1].Last);
+	AddTab(CE,TDOUBLE,PARM,PARM_TIMEBKG_0_0_FIRST,"TimeBkg00First",0,0,&P.TimeBkg[0][0].First);
+	AddTab(CE,TDOUBLE,PARM,PARM_TIMEBKG_0_1_FIRST,"TimeBkg01First",0,0,&P.TimeBkg[0][1].First);
+	AddTab(CE,TDOUBLE,PARM,PARM_TIMEBKG_1_0_FIRST,"TimeBkg10First",0,0,&P.TimeBkg[1][0].First);
+	AddTab(CE,TDOUBLE,PARM,PARM_TIMEBKG_1_1_FIRST,"TimeBkg11First",0,0,&P.TimeBkg[1][1].First);
+	AddTab(CE,TDOUBLE,PARM,PARM_TIMEBKG_0_0_LAST,"TimeBkg00Last",0,0,&P.TimeBkg[0][0].Last);
+	AddTab(CE,TDOUBLE,PARM,PARM_TIMEBKG_0_1_LAST,"TimeBkg01Last",0,0,&P.TimeBkg[0][1].Last);
+	AddTab(CE,TDOUBLE,PARM,PARM_TIMEBKG_1_0_LAST,"TimeBkg10Last",0,0,&P.TimeBkg[1][0].Last);
+	AddTab(CE,TDOUBLE,PARM,PARM_TIMEBKG_1_1_LAST,"TimeBkg11Last",0,0,&P.TimeBkg[1][1].Last);
 
-	//2
+	// 12
+	AddTab(CE,TDOUBLE,DISPLAY,DISPLAY_LIMIT_0_0_LOW,"Limit00Low",0,0,&P.Limit[0][0].Low);
+	AddTab(CE,TDOUBLE,DISPLAY,DISPLAY_LIMIT_0_1_LOW,"Limit01Low",0,0,&P.Limit[0][1].Low);
+	AddTab(CE,TDOUBLE,DISPLAY,DISPLAY_LIMIT_1_0_LOW,"Limit10Low",0,0,&P.Limit[1][0].Low);
+	AddTab(CE,TDOUBLE,DISPLAY,DISPLAY_LIMIT_1_1_LOW,"Limit11Low",0,0,&P.Limit[1][1].Low);
+	AddTab(CE,TDOUBLE,DISPLAY,DISPLAY_LIMIT_0_0_HIGH,"Limit00High",0,0,&P.Limit[0][0].High);
+	AddTab(CE,TDOUBLE,DISPLAY,DISPLAY_LIMIT_0_1_HIGH,"Limit01High",0,0,&P.Limit[0][1].High);
+	AddTab(CE,TDOUBLE,DISPLAY,DISPLAY_LIMIT_1_0_HIGH,"Limit10High",0,0,&P.Limit[1][0].High);
+	AddTab(CE,TDOUBLE,DISPLAY,DISPLAY_LIMIT_1_1_HIGH,"Limit11High",0,0,&P.Limit[1][1].High);
+	AddTab(CE,TINT,DISPLAY,DISPLAY_LIMIT_0_0_AUTO,"Limit00Auto",0,0,&P.Limit[0][0].Auto);
+	AddTab(CE,TINT,DISPLAY,DISPLAY_LIMIT_0_1_AUTO,"Limit01Auto",0,0,&P.Limit[0][1].Auto);
+	AddTab(CE,TINT,DISPLAY,DISPLAY_LIMIT_1_0_AUTO,"Limit10Auto",0,0,&P.Limit[1][0].Auto);
+	AddTab(CE,TINT,DISPLAY,DISPLAY_LIMIT_1_1_AUTO,"Limit11Auto",0,0,&P.Limit[1][1].Auto);
+
+	// 3
+	AddTab(CE,TDOUBLE,DISPLAY,DISPLAY_ZOOM_LOW,"ZoomLow",0,0,&P.Zoom.Low);
+	AddTab(CE,TDOUBLE,DISPLAY,DISPLAY_ZOOM_HIGH,"ZoomHigh",0,0,&P.Zoom.High);
+	AddTab(CE,TINT,DISPLAY,DISPLAY_ZOOM_AUTO,"ZoomAuto",0,0,&P.Zoom.Auto);
+
+	// 2
 	AddTab(CE,TDOUBLE,PARM,PARM_WAIT_FILE,"WaitFile",0,0,&P.Wait.File);
 	AddTab(CE,TDOUBLE,PARM,PARM_WAIT_DISPLAY,"WaitDisplay",0,0,&P.Wait.Display);
 	

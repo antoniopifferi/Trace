@@ -14,16 +14,26 @@
      /* Panels and Controls: */
 
 #define  DISPLAY                          1       /* callback function: ClosePanel */
-#define  DISPLAY_PAUSE                    2       /* control type: textButton, callback function: GetCommand */
-#define  DISPLAY_ABORT                    3       /* control type: command, callback function: GetCommand */
-#define  DISPLAY_GRAPH_TYPE               4       /* control type: ring, callback function: Setting */
-#define  DISPLAY_GRAPH_SCALE              5       /* control type: ring, callback function: Setting */
-#define  DISPLAY_GRAPH_TRACE_2            6       /* control type: graph, callback function: (none) */
-#define  DISPLAY_GRAPH_TRACE_1            7       /* control type: graph, callback function: (none) */
-#define  DISPLAY_GRAPH_PLOT               8       /* control type: graph, callback function: (none) */
-#define  DISPLAY_OSCILL_ZOOM_FIRST        9       /* control type: numeric, callback function: Setting */
-#define  DISPLAY_OSCILL_ZOOM_LAST         10      /* control type: numeric, callback function: Setting */
-#define  DISPLAY_ZOOM                     11      /* control type: textMsg, callback function: (none) */
+#define  DISPLAY_LIMIT_0_0_HIGH           2       /* control type: numeric, callback function: Setting */
+#define  DISPLAY_LIMIT_0_1_HIGH           3       /* control type: numeric, callback function: Setting */
+#define  DISPLAY_ZOOM_HIGH                4       /* control type: numeric, callback function: Setting */
+#define  DISPLAY_ZOOM_LOW                 5       /* control type: numeric, callback function: Setting */
+#define  DISPLAY_LIMIT_1_0_HIGH           6       /* control type: numeric, callback function: Setting */
+#define  DISPLAY_LIMIT_1_1_HIGH           7       /* control type: numeric, callback function: Setting */
+#define  DISPLAY_LIMIT_0_0_LOW            8       /* control type: numeric, callback function: Setting */
+#define  DISPLAY_LIMIT_0_1_LOW            9       /* control type: numeric, callback function: Setting */
+#define  DISPLAY_LIMIT_1_0_LOW            10      /* control type: numeric, callback function: Setting */
+#define  DISPLAY_LIMIT_1_1_LOW            11      /* control type: numeric, callback function: Setting */
+#define  DISPLAY_LIMIT_0_0_AUTO           12      /* control type: radioButton, callback function: Setting */
+#define  DISPLAY_LIMIT_0_1_AUTO           13      /* control type: radioButton, callback function: Setting */
+#define  DISPLAY_ZOOM_AUTO                14      /* control type: radioButton, callback function: Setting */
+#define  DISPLAY_LIMIT_1_0_AUTO           15      /* control type: radioButton, callback function: Setting */
+#define  DISPLAY_LIMIT_1_1_AUTO           16      /* control type: radioButton, callback function: Setting */
+#define  DISPLAY_ABORT                    17      /* control type: command, callback function: GetCommand */
+#define  DISPLAY_PAUSE                    18      /* control type: textButton, callback function: GetCommand */
+#define  DISPLAY_GRAPH_PLOT               19      /* control type: graph, callback function: (none) */
+#define  DISPLAY_GRAPH_TRACE_1            20      /* control type: graph, callback function: (none) */
+#define  DISPLAY_GRAPH_TRACE_2            21      /* control type: graph, callback function: (none) */
 
 #define  PARM                             2       /* callback function: ClosePanel */
 #define  PARM_WINDOW_0_0_FIRST            2       /* control type: numeric, callback function: Setting */
@@ -34,14 +44,14 @@
 #define  PARM_WINDOW_0_1_LAST             7       /* control type: numeric, callback function: Setting */
 #define  PARM_WINDOW_1_0_LAST             8       /* control type: numeric, callback function: Setting */
 #define  PARM_WINDOW_1_1_LAST             9       /* control type: numeric, callback function: Setting */
-#define  PARM_BKG_0_0_FIRST               10      /* control type: numeric, callback function: Setting */
-#define  PARM_BKG_0_1_FIRST               11      /* control type: numeric, callback function: Setting */
-#define  PARM_BKG_1_0_FIRST               12      /* control type: numeric, callback function: Setting */
-#define  PARM_BKG_1_1_FIRST               13      /* control type: numeric, callback function: Setting */
-#define  PARM_BKG_0_0_LAST                14      /* control type: numeric, callback function: Setting */
-#define  PARM_BKG_0_1_LAST                15      /* control type: numeric, callback function: Setting */
-#define  PARM_BKG_1_0_LAST                16      /* control type: numeric, callback function: Setting */
-#define  PARM_BKG_1_1_LAST                17      /* control type: numeric, callback function: Setting */
+#define  PARM_TIMEBKG_0_0_FIRST           10      /* control type: numeric, callback function: Setting */
+#define  PARM_TIMEBKG_0_1_FIRST           11      /* control type: numeric, callback function: Setting */
+#define  PARM_TIMEBKG_1_0_FIRST           12      /* control type: numeric, callback function: Setting */
+#define  PARM_TIMEBKG_1_1_FIRST           13      /* control type: numeric, callback function: Setting */
+#define  PARM_TIMEBKG_0_0_LAST            14      /* control type: numeric, callback function: Setting */
+#define  PARM_TIMEBKG_0_1_LAST            15      /* control type: numeric, callback function: Setting */
+#define  PARM_TIMEBKG_1_0_LAST            16      /* control type: numeric, callback function: Setting */
+#define  PARM_TIMEBKG_1_1_LAST            17      /* control type: numeric, callback function: Setting */
 #define  PARM_WAIT_FILE                   18      /* control type: numeric, callback function: Setting */
 #define  PARM_WAIT_DISPLAY                19      /* control type: numeric, callback function: Setting */
 #define  PARM_CLOCK_NUM                   20      /* control type: numeric, callback function: Setting */

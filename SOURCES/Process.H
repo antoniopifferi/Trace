@@ -29,7 +29,7 @@
 #define MAX_PLOT	16
 
 /* BIOM CONSTANTS */
-#define BIOM_PATHLEN	200 // mm = vt = c/n*1ns
+#define BIOM_PATHLEN	20  // cm = vt = c/n*1ns
 #define BIOM_CONTRAST	0	// display contrast
 #define BIOM_DMUA		1	// display DeltaMua
 #define BIOM_HBHBO2		2	// display Hb HbO2
@@ -69,7 +69,7 @@
 
 
 /* TABLE CONSTANTS */  
-#define MAX_TABLE		(8+8+2+3+6+3)
+#define MAX_TABLE		(8+8+12+3+2+3+6+3)
 #define STRLEN_TABLE	20
 #define TCHAR			0
 #define TINT			1
@@ -140,10 +140,27 @@ struct BiomS{
 	char Label[MAX_BIOM][STRLEN];
 	};
 
+struct LimitS{
+	double Low;
+	double High;
+	int Auto;
+	};
+
+struct ZoomS{
+	double Low;
+	double High;
+	int Auto;
+	};
+
 struct WindowS{
 	double First;
 	double Last;
 	double Middle;
+	};
+
+struct TimeBkgS{
+	double First;
+	double Last;
 	};
 
 #pragma pack(push,1)
@@ -223,8 +240,11 @@ struct ParmS {
 	struct RangeS Lambda;
 	struct BiomS Biom;
 	struct RangeS Bkg[MAX_DET][MAX_LAMBDA];
+	struct TimeBkgS TimeBkg[MAX_DET][MAX_LAMBDA];
 	struct RangeS Gate[MAX_DET][MAX_LAMBDA];
 	struct WindowS Window[MAX_DET][MAX_LAMBDA];
+	struct LimitS Limit[MAX_DET][MAX_BIOM];
+	struct ZoomS Zoom;
 	struct RangeS Clock;
 	struct RangeS Ref;
 	double Eps[MAX_BIOM][MAX_LAMBDA];
